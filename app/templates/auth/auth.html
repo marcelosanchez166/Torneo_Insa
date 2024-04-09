@@ -1,0 +1,47 @@
+{% extends './base.html' %}<!--Heredando de la plantilla base.html que es la que tiene el css bootstrap -->
+
+
+{% block title %}
+    Login
+{% endblock %}
+
+
+
+
+
+{% block body %}  
+    {% block CustomCSS %}<!-- Este bloque esta creado en la plantilla base.html y lo llamo aca para no ponerlo en la plantilla base.html de esa forma solo afectara a la plantilla logn.html -->
+        <link href="{{url_for('static', filename='css/login.css')}}" rel="stylesheet">
+    {% endblock %}
+    <form class="form-signin text-center" action="{{ url_for('AuthLogin.login') }}"  method="post">
+
+        <input type="hidden" name="csrf_token" ><!--Este input generara el token para la seguridad de nuestros formularios-->
+
+        <img class="mb-4" src="/docs/4.6/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+        <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
+        <label for="username" class="sr-only py-2" >Username</label>
+
+        <input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
+        <label for="password" class="sr-only py-2">Password</label>
+
+        <br>
+        <button class="btn btn-lg btn-primary btn-block " type="submit">Sign in</button>
+        <div class="container py-3">
+            <button class="btn btn-lg btn-primary btn-block"> <a class="text-white" href="{{ url_for('RegisterUser.register') }}"> Sign up</button></a>
+        </div>
+        <p class="mt-5 mb-3 text-muted">&copy; 2024</p>   
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </form> 
+
+        <!-- <h2>Login</h2> -->
+
+    <!-- <h1>Formulario</h1> -->
+{% endblock %}

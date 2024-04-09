@@ -1,0 +1,18 @@
+<!-- esta sera la plantilla que va a renderizar la vista index desde el archivo __init__.py  -->
+
+<!-- Para comenzar debemos hacer un extends de body.html -->
+{% extends './body.html' %}
+
+<!-- modificando el bloque title el cual tendra de titulo index -->
+{% block title %} 
+    Index 
+{% endblock %} 
+
+{% block CustomCSS %}
+<link href="{{url_for('static', filename='css/login.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block container %}
+<h1>estamos en la plantilla de grupos para ver si se remplaza la plantilla en lugar de ponerse encima </h1>
+<h2>Esta plantilla tendra la posibilidad de agregar mas grupos, actualizar, eliminar  y visualizar los grupos</h2>
+{% endblock %}

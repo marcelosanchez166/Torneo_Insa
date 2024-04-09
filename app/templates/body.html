@@ -1,0 +1,11 @@
+<!-- Extendemos de la plantilla base.html -->
+{% extends './base.html' %}
+
+<!-- creamos el block del body con su cierre -->
+{% block body %}
+    {% include './navbar.html' %}
+    <div class="container py-3"><!-- este div contiene el bloque container que es el que tiene el h1 con el Hola mundo en la plantilla index.html -->
+        {% block container %}
+        {% endblock %}
+    </div>
+{% endblock %}

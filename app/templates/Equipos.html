@@ -1,0 +1,98 @@
+<!-- esta sera la plantilla que va a renderizar la vista index desde el archivo __init__.py  -->
+
+<!-- Para comenzar debemos hacer un extends de body.html -->
+{% extends './body.html' %}
+
+<!-- modificando el bloque title el cual tendra de titulo index -->
+{% block title %} 
+    Index 
+{% endblock %} 
+
+{% block CustomCSS %}
+<link href="{{url_for('static', filename='css/login.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block container %}
+    <div class=" col-md-4 container border border-secondary  " id="formularioEquipo">
+        <form class="m-3">
+            <div class="form-row">
+                <div class="form-group col-md-8 mb-4">
+                    <label for="inputRepresentante">Representante</label>
+                    <input type="text" class="form-control" name="Representante" id="inputRepresentante" placeholder="Representante">
+                </div>
+                <div class="form-group col-md-8 mb-4">
+                    <label for="inputSubRepresentante">SubRepresentante</label>
+                    <input type="text" class="form-control" name="SubRepresentante" id="inputSubRepresentante" placeholder="Sub-Representante">
+                </div>
+                <div class="form-group col-md-8 mb-4">
+                    <label for="inputEmail4">Email</label>
+                    <input type="email" class="form-control" name="Email" id="inputEmail4" placeholder="Email">
+                </div>
+                <div class="form-group col-md-8 mb-4">
+                    <label for="inputNombreEquipo">Nombre Equipo</label>
+                    <input type="text" class="form-control" name="Nombre_Equipo" id="inputNombreEquipo" placeholder="Nombre Equipo">
+                </div>
+            </div>
+
+
+            <!-- Se parar Horarios -->
+            <!-- The first value will be selected initially -->
+            <div class="form-row ">
+                <div class="input-group  mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelectDia">Dia</label>
+                    </div>
+                    <select class="custom-select col-md-7 text-center" id="inputGroupSelectDia" name="Dia">
+                        <option value="1">Lunes</option>
+                        <option value="2">Martes</option>
+                        <option value="3">Miercoles</option>
+                        <option value="4">Jueves</option>
+                        <option value="5">Viernes</option>
+                    </select>
+                </div>
+                
+                <div class="input-group mb-3">
+                    <div class="input-group-append">
+                        <label class="input-group-text" for="inputGroupSelectHoraInicio">Horaini</label>
+                    </div>
+                    <select class="custom-select  col-md-6 text-center" id="inputGroupSelectHoraInicio" name="Hora_inicio">
+                        <option value="1">8:00</option>
+                        <option value="2">9:00</option>
+                        <option value="3">10:00</option>
+                        <option value="4">11:00</option>
+                        <option value="5">12:00</option>
+                        <option value="6">13:00</option>
+                        <option value="7">14:00</option>
+                        <option value="8">15:00</option>
+                        <option value="9">16:00</option>
+                        <option value="10">17:00</option>
+                        <option value="11">18:00</option>
+                    </select>
+                </div>
+                
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelectHoraFin">Horafin</label>
+                    </div>
+                    <select class="custom-select col-md-6 text-center" id="inputGroupSelectHoraFin" name="Hora_fin">
+                        <option value="1">8:00</option>
+                        <option value="2">9:00</option>
+                        <option value="3">10:00</option>
+                        <option value="4">11:00</option>
+                        <option value="5">12:00</option>
+                        <option value="6">13:00</option>
+                        <option value="7">14:00</option>
+                        <option value="8">15:00</option>
+                        <option value="9">16:00</option>
+                        <option value="10">17:00</option>
+                        <option value="11">18:00</option>
+                    </select>
+                </div>
+            </div>
+            <h1>agregar una forma de agregar los horarios disponibles de los equipos para que se guarden de una vez cuando se 
+                agregue el equipo a la tabla equipos y los horarios en la tabla horarios </h1>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+
+    </div>
+{% endblock %}
