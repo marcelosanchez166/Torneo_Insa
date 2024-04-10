@@ -1,6 +1,5 @@
-from flask import Flask, render_template, redirect, url_for, flash, request
-from flask_login import LoginManager,  login_user, login_required, logout_user,current_user
-from flask_mysqldb import MySQL
+from flask import Flask
+from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect #libreria para poder crear tokens esta se instalo con pip y generaremos tokens personalizados con la SECRET_KEY que creamos en el archivo config.py
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -10,9 +9,9 @@ from app.database import db
 
 # Routes Importando los Blueprints
 from .routes.authorization import  auth, register
-from .routes import Route_Equipos
+from .routes import route_teams
 from .routes import index
-from .routes import grupos
+from .routes import route_groups
 
 app = Flask(__name__)
 
@@ -43,7 +42,7 @@ def init_app(config):
     # Blueprints
     app.register_blueprint(auth.AuthLogin )
     app.register_blueprint(register.RegisterUser)
-    app.register_blueprint(Route_Equipos.EquiposBlueprint)
+    app.register_blueprint(route_teams.EquiposBlueprint)
     app.register_blueprint(index.IndexBlueprint)
-    app.register_blueprint(grupos.gruposBlueprint)
+    app.register_blueprint(route_groups.gruposBlueprint)
     return app
