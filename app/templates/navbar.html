@@ -1,28 +1,22 @@
-{% block indexcss %}
-<link href="{{url_for('static', filename='css/navbar.css')}}" rel="stylesheet">
-{% endblock %}
-<header class="main-header ml-5">
-    <label for="btn-nav" class="btn-nav"><i class="fas fa-bars"></i></label>
-    <input type="checkbox" id="btn-nav">
-    
-    <nav>
-    <ul class="navigation">
-        <li style="padding-bottom: 100px; padding-top: 65px;" class="home"><a href="{{url_for('EquiposBlueprint.equipos')}}">Equipos<img style="width: 80px; padding-left: 10px;"  src="{{url_for('static', filename='img/users-group.png')}}" alt=""></a></li>
-        <li style="padding-bottom: 100px; padding-top: 65px;" class="services"><a href="{{url_for('gruposBlueprint.grupos')}}">Grupos<img style="width: 80px; padding-left: 10px;"  src="{{url_for('static', filename='img/play-football.png')}}" alt=""></a></li>
-        <li style="padding-bottom: 100px; padding-top: 65px;" class="about"><a href="">Partidos<img style="width: 80px; padding-left: 10px;" src="{{url_for('static', filename='img/soccer-field.png')}}" alt=""></a></li>
-        <li style="padding-bottom: 100px; padding-top: 65px;" class="contact"><a href="">Horarios<img style="width: 80px; padding-left: 10px;" src="{{url_for('static', filename='img/calendar-clock.png')}}" alt=""></a></li>
-    </ul>
-    </nav>
-    
-    <ul class="top-menu">
-        <li class="titulo">
-            <h2>Torneo Instituto Nacional de Santa Ana</h2>
-        </li>
-        <li style="margin-left: auto; padding-top: 25px;">
-            <a href="#" style="width: 80px;">{{ current_user.username }}<img style="width: 30px; padding-left: 10px;" src="{{url_for('static', filename='img/user.png')}}" alt=""></a>
-        </li>
-        <li style="margin-left: 10px; padding-top: 25px;">
-            <a href="{{ url_for('AuthLogin.logout') }}">Logout<img style="width: 30px; padding-left: 10px;" src="{{url_for('static', filename='img/logout.png')}}" alt=""></a>
-        </li>
-    </ul>
-</header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('AuthLogin.index') }}">Tienda "De Libros"</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto" >
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('AuthLogin.index') }}">Index</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('AuthLogin.logout') }}">Cerrar Sesi&oacute;n</a>
+                </li>
+                <!--<li class="nav-item">
+                    <a class="nav-link disabled">Disabled</a>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+</nav>
