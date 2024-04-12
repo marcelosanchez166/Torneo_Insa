@@ -9,9 +9,12 @@ from app.database import db
 
 # Routes Importando los Blueprints
 from .routes.authorization import  auth, register
-from .routes import route_teams
+from .routes import route_teams#Equipos
+from .routes import route_groups#Grupos
+from .routes import route_matches#Partidos
+from .routes import route_dates#Horarios
 from .routes import index
-from .routes import route_groups
+
 
 app = Flask(__name__)
 
@@ -43,6 +46,9 @@ def init_app(config):
     app.register_blueprint(auth.AuthLogin )
     app.register_blueprint(register.RegisterUser)
     app.register_blueprint(route_teams.EquiposBlueprint)
-    app.register_blueprint(index.IndexBlueprint)
     app.register_blueprint(route_groups.gruposBlueprint)
+    app.register_blueprint(route_matches.partidosBlueprint)
+    app.register_blueprint(route_dates.horariosBlueprint)
+    app.register_blueprint(index.IndexBlueprint)
+
     return app
