@@ -1,5 +1,10 @@
-<ul class="nav flex-column">
-    <ul class="nav justify-content-end">
+{% block CustomCSS %}
+<link href="{{url_for('static', filename='css/navbar.css')}}" rel="stylesheet">
+{% endblock %}
+
+
+<ul class="navs flex-columns ">
+    <ul class="nav justify-content-end pb-3 pt-3">
         <li class="nav-item">
             <a class="nav-link active" href="#">{{ current_user.username }}
                 <img style="width: 30px; padding-left: 10px;" src="{{url_for('static', filename='img/user.png')}}" alt="">
@@ -11,24 +16,24 @@
             </a>
         </li>
     </ul>
-    <li class="nav-item">
+    <li class="nav-item pb-5 col-2 pt-5">
         <a class="nav-link active" aria-current="page" href="{{url_for('EquiposBlueprint.equipos')}}">Equipos
-            <img style="width: 80px; padding-left: 10px;" src="{{url_for('static', filename='img/users-group.png')}}" alt="">
+            <img style="width: 80px; " src="{{url_for('static', filename='img/users-group.png')}}" alt="">
         </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item pb-5 col-2 pt-5">
         <a class="nav-link" href="{{url_for('gruposBlueprint.grupos')}}">Grupos
-            <img style="width: 80px; padding-left: 10px;" src="{{url_for('static', filename='img/table-plus.png')}}" alt="">
+            <img style="width: 80px; " src="{{url_for('static', filename='img/table-plus.png')}}" alt="">
         </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item pb-5 col-2 pt-5">
         <a class="nav-link" href="{{url_for('partidosBlueprint.partidos')}}">Partidos
-            <img style="width: 80px; padding-left: 10px;" src="{{url_for('static', filename='img/soccer-field.png')}}" alt="">
+            <img style="width: 80px; " src="{{url_for('static', filename='img/soccer-field.png')}}" alt="">
         </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item pb-5 col-2 pt-5">
         <a class="nav-link" href="{{url_for('horariosBlueprint.horarios')}}">Horarios
-            <img style="width: 80px; padding-left: 10px;" src="{{url_for('static', filename='img/calendar-clock.png')}}" alt="">
+            <img style="width: 80px; " src="{{url_for('static', filename='img/calendar-clock.png')}}" alt="">
         </a>
     </li>
 </ul>

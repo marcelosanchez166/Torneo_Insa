@@ -3,8 +3,8 @@
 
 <!-- creamos el block del body con su cierre -->
 {% block body %}
-    {% include './navbar.html' %}
-    <div class="container py-3"><!-- este div contiene el bloque container que es el que tiene el h1 con el Hola mundo en la plantilla index.html -->
+{% include './navbar.html' %}
+    <div class="container" style=" height: 0px; padding-right: -1; margin-right: 30px; margin-left: 30px; width: 1530px;"><!-- este div contiene el bloque container que es el que tiene el h1 con el Hola mundo en la plantilla index.html -->
         {% block container %}
         {% endblock %}
     </div>
