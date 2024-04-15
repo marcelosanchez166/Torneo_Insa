@@ -1,14 +1,3 @@
-.flex-columns {
-    -ms-flex-direction: column !important;
-    flex-direction: column !important;
-}
-
-.navs {
-    display: -ms-flexbox;
-    display:contents;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    padding-left: 0;
-    margin-bottom: 100px;
-    list-style: none;
+.navbarmi{
+    background-color: #1c20;
 }

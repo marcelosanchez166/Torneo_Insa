@@ -4,7 +4,7 @@ from flask_login import  login_required,current_user
 partidosBlueprint=Blueprint("partidosBlueprint", __name__)
 
 
-@partidosBlueprint.route("/Grupo")
+@partidosBlueprint.route("/partidos")
 @login_required
 def partidos():
     print("usuario autenticado desde Equipos ", current_user.is_authenticated )

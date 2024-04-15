@@ -4,7 +4,7 @@ from flask_login import  login_required,current_user
 horariosBlueprint=Blueprint("horariosBlueprint", __name__)
 
 
-@horariosBlueprint.route("/Grupo")
+@horariosBlueprint.route("/horarios")
 @login_required
 def horarios():
     print("usuario autenticado desde Equipos ", current_user.is_authenticated )

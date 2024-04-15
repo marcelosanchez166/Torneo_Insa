@@ -9,13 +9,17 @@
 {% endblock %} 
 
 
-{% block CustomCSS %}
-<link href="{{url_for('static', filename='css/index.css')}}" rel="stylesheet">
-{% endblock %}
 
 {% block container %}
-<div class="container" style="width: 1000px;">
-    <h3>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis neque maxime, doloremque autem accusamus cum reprehenderit, 
-        debitis veritatis aperiam ipsam ipsa vero voluptatum maiores qui fugiat deserunt beatae ab. Eaque!</h3>
+
+{% block CustomCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css')}}">
+{% endblock %}
+
+<div class="container col-lg-6  mr-1 ml-1" style=" right: auto;left: 700px;top: auto;bottom: 700px;">
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis neque maxime, doloremque autem accusamus cum reprehenderit, 
+        debitis veritatis aperiam ipsam ipsa vero voluptatum maiores qui fugiat deserunt beatae ab. Eaque!</p>
+
+    <img src="{{url_for('static', filename='img/CE-INSA.png')}}" alt="Imagen de Centro Escolar INSA">
 </div>
 {% endblock %}

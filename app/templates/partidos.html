@@ -5,17 +5,13 @@
 
 <!-- modificando el bloque title el cual tendra de titulo index -->
 {% block title %} 
-    Index 
+    Partidos 
 {% endblock %} 
 
-{% block CustomCSS %}
-<link href="{{url_for('static', filename='css/login.css')}}" rel="stylesheet">
-{% endblock %}
-
 {% block container %}
-<div class="container" style="width: 1000px;">
-    <h1>estamos en la plantilla de grupos para ver si se remplaza la plantilla en lugar de ponerse encima </h1>
-    <h2>Esta plantilla tendra la posibilidad de agregar mas grupos, actualizar, eliminar  y visualizar los Partidos</h2>
+<div class=" col-lg-6 container mr-1 ml-11" style=" right: 300px;left: 200px;top: auto;bottom: 700px; ">
+    <p>estamos en la plantilla de grupos para ver si se remplaza la plantilla en lugar de ponerse encima 
+    Esta plantilla tendra la posibilidad de agregar mas grupos, actualizar, eliminar  y visualizar los Partidos</p>
 </div>
 
 {% endblock %}

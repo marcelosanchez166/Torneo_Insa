@@ -1,16 +1,12 @@
-{% block CustomCSS %}
-<link href="{{url_for('static', filename='css/navbar.css')}}" rel="stylesheet">
-{% endblock %}
-
 
 <ul class="navs flex-columns ">
-    <ul class="nav justify-content-end pb-3 pt-3">
-        <li class="nav-item">
+    <ul class="nav justify-content-end pb-3 pt-3"  style="background-color: #252a2f;">
+        <li class="nav-item" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;  font-size:20px; font-weight: bolder">
             <a class="nav-link active" href="#">{{ current_user.username }}
                 <img style="width: 30px; padding-left: 10px;" src="{{url_for('static', filename='img/user.png')}}" alt="">
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;  font-size:20px; font-weight: bolder">
             <a class="nav-link" href="{{ url_for('AuthLogin.logout') }}">Logout
                 <img style="width: 30px; padding-left: 10px;" src="{{url_for('static', filename='img/logout.png')}}" alt="">
             </a>

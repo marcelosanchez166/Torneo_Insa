@@ -28,9 +28,11 @@
 
         <br>
         <button class="btn btn-lg btn-primary btn-block " type="submit">Sign in</button>
-        <div class="container py-3">
-            <button class="btn btn-lg btn-primary btn-block"> <a class="text-white" href="{{ url_for('RegisterUser.register') }}"> Sign up</button></a>
-        </div>
+        <!-- <div class="container py-3"> -->
+            <button class="btn btn-lg btn-secondary btn-block"> 
+                <a class="text-white" href="{{ url_for('RegisterUser.register') }}"> Sign up</a>
+            </button>
+        <!-- </div> -->
         <p class="mt-5 mb-3 text-muted">&copy; 2024</p>   
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
