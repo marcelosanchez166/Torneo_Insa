@@ -6,7 +6,7 @@ from flask import Blueprint
 
 from app.models.modelo_usuario  import ModeloUsuario
 from app.models.entities.usuario import Usuario
-from app.routes.route_teams import EquiposBlueprint, equipos
+
 
 
 from app.database.db import get_connection as db
