@@ -13,7 +13,7 @@
 {% block container %}
     <div class="col-lg-6 container mr-1 ml-1 border border-secondary"
     style=" right: auto;left: 700px;top: auto;bottom: 700px;" id="formularioEquipo">
-        <form class="m-3">
+        <form class="m-3" action="{{ url_for('EquiposBlueprint.equipos') }}"  method="post">
             <div class="form-row">
                 <div class="form-group col-md-8 mb-4">
                     <label for="inputRepresentante">Representante</label>

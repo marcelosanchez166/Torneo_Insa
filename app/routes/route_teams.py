@@ -1,4 +1,4 @@
-from flask import  Blueprint, render_template, request,flash, redirect
+from flask import  Blueprint, render_template, request,flash, redirect, url_for
 from flask_login import  login_required,current_user
 
 
@@ -18,16 +18,24 @@ def equipos():
     print("usuario autenticado desde Equipos ", current_user.is_authenticated )
     if current_user.is_authenticated:
         if request.method == "POST":
-            Representante = request.form["Representante"]
-            SubRepresentante = request.form["SubRepresentante"]
-            Email = request.form["Email"]
-            Nombre_Equipo =  request.form["Nombre_Equipo"]
-            Add_Equipos = Equipos(None, Representante, SubRepresentante, Email, Nombre_Equipo, None)
+            representante = request.form["Representante"]
+            subrepresentante = request.form["SubRepresentante"]
+            correo = request.form["Email"]
+            nombre_equipo =  request.form["Nombre_Equipo"]
+            print(representante,subrepresentante,correo,nombre_equipo)
+
+            Add_Equipos = Equipos(None, representante, subrepresentante, correo, nombre_equipo, None)
+            print("DEsde la instancia de Equipos",Add_Equipos.correo, Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante)
             Add_teams = ModeloEquipos.add_teams( Add_Equipos)
+            print("Addteams intancia",Add_teams)
             if Add_teams != None:
-                return flash('User successfully registered', 'success') ,redirect('/equipos')
+                flash('User successfully registered', 'success') 
+                return render_template("Equipos.html")
             else :
-                return flash('Error in the registration process ', 'danger') ,redirect('/equipos')
+                flash('Error in the registration process ', 'warning')
+                return redirect(url_for('EquiposBlueprint.equipos'))
+        else:
+            return render_template("Equipos.html")  # Renderiza el formulario para agregar equipos
     else:
-        """Redirección a la página principal con un mensaje de error"""
-        return render_template('auth/auth.html')
+        flash('You must be logged in to access this page', 'warning')
+        return redirect(url_for('AuthLogin.login'))  # Redirecciona a la página de inicio de sesión
