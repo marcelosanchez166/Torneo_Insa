@@ -2,12 +2,8 @@ from flask import  Blueprint, render_template, request,flash, redirect, url_for
 from flask_login import  login_required,current_user
 
 
-
 from app.models.entities.equipos import Equipos
 from app.models.modelo_equipos import ModeloEquipos
-
-# from app import current_user,login_required
-
 
 
 EquiposBlueprint=Blueprint("EquiposBlueprint", __name__)
@@ -27,8 +23,8 @@ def equipos():
             Add_Equipos = Equipos(None, representante, subrepresentante, correo, nombre_equipo, None)
             print("DEsde la instancia de Equipos",Add_Equipos.correo, Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante)
             Add_teams = ModeloEquipos.add_teams( Add_Equipos)
-            print("Addteams intancia",Add_teams)
-            if Add_teams != None:
+            #print("Addteams intancia valor",Add_teams)
+            if Add_teams is not None:
                 flash('User successfully registered', 'success') 
                 return render_template("Equipos.html")
             else :
