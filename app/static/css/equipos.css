@@ -1,0 +1,72 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1c2024; 
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    
+}
+
+th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+label {
+    font-weight: bold;
+}
+h1{
+    font-weight: bold;
+    color: #ddd;
+}
+
+select {
+    width: 150px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+
+.ShowTeams{
+    right: auto;
+    left: 1000px;
+    top: auto;
+    bottom: 700px; 
+    text-align: center; 
+}
