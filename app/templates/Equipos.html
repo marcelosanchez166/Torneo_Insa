@@ -24,22 +24,19 @@ Equipos
             <div class="form-row" style="width: 600px; padding-left: 150px;">
                 <div class="form-group col-md-8 mb-4" style="width: auto; align-items: center;">
                     <label for="inputRepresentante">Representante: Nombre Completo</label>
-                    <input type="text" class="form-control" name="Representante" id="inputRepresentante"
-                        placeholder="Representante">
+                    <input type="text" class="form-control" name="Representante" id="inputRepresentante" placeholder="Representante" required>
                 </div>
                 <div class="form-group col-md-8 mb-4" style="width: auto; align-items: center;">
                     <label for="inputSubRepresentante">Sub-representante: Nombre Completo</label>
-                    <input type="text" class="form-control" name="SubRepresentante" id="inputSubRepresentante"
-                        placeholder="Sub-Representante">
+                    <input type="text" class="form-control" name="SubRepresentante" id="inputSubRepresentante" placeholder="Sub-Representante" required>
                 </div>
                 <div class="form-group col-md-8 mb-4" style="width: auto; align-items: center;">
                     <label for="inputEmail4">Email: Representante</label>
-                    <input type="email" class="form-control" name="Email" id="inputEmail4" placeholder="Email">
+                    <input type="email" class="form-control" name="Email" id="inputEmail4" placeholder="Email" required>
                 </div>
                 <div class="form-group col-md-8 mb-4" style="width: auto; align-items: center;">
                     <label for="inputNombreEquipo">Nombre de Equipo</label>
-                    <input type="text" class="form-control" name="Nombre_Equipo" id="inputNombreEquipo"
-                        placeholder="Nombre Equipo">
+                    <input type="text" class="form-control" name="Nombre_Equipo" id="inputNombreEquipo" placeholder="Nombre Equipo" required>
                 </div>
             </div>
 
@@ -248,7 +245,8 @@ Equipos
         <!-- Tabla de equipos -->
         <table style="position: absolute;right: 10px;top: 0px;left: 725px;"" class="showteams">
             <tr style="font-size: smaller; color: antiquewhite; border: 1px solid #ddd;">
-                <th >Nombre del equipo</th>
+                <th>id</th>
+                <th>Nombre del equipo</th>
                 <th>Representante</th>
                 <th>Sub representante</th>
                 <th>Correo</th>
@@ -257,11 +255,16 @@ Equipos
     
             {% for equipo in data %}
             <tr style="color: antiquewhite; font-weight: bold; font-size: smaller; column-width: auto; border: 1px solid #ddd; padding: 8px;">
-                <td >{{ equipo[0] }}</td>
+                <td>{{ equipo[0] }}</td>
                 <td>{{ equipo[1] }}</td>
                 <td>{{ equipo[2] }}</td>
                 <td>{{ equipo[3] }}</td>
                 <td>{{ equipo[4] }}</td>
+                <td>
+                    <div class="col-md-6 mx-auto">
+                        <a class="btn btn-info btn-block text-white" href="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo[0]) }}">Editar equipo</a>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         </table>
