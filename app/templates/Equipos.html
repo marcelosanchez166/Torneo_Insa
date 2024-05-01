@@ -166,7 +166,7 @@ Equipos
                     <tr>
                         <td>
                             <label for="jueves">Jueves:</label>
-                            <input type="checkbox" name="dias[jueves]" value="miercoles" id="jueves">
+                            <input type="checkbox" name="dias[jueves]" value="jueves" id="jueves">
                         </td>
                         <td>
                             <select class="custom-select col-md-6 text-center" id="jueves" name="horas[jueves][inicio]">
@@ -203,7 +203,7 @@ Equipos
                     <tr>
                         <td>
                             <label for="viernes">Viernes:</label>
-                            <input type="checkbox" name="dias[viernes]" value="miercoles" id="viernes">
+                            <input type="checkbox" name="dias[viernes]" value="viernes" id="viernes">
                         </td>
                         <td>
                             <select class="custom-select col-md-6 text-center" id="viernes" name="horas[viernes][inicio]">
@@ -220,7 +220,7 @@ Equipos
                             </select>
                         </td>
                         <td>
-                            <select class="custom-select col-md-6 text-center" id="viernes" name="horas[viernes][inicio]">
+                            <select class="custom-select col-md-6 text-center" id="viernes" name="horas[viernes][fin]">
                                 <option value="8">8:00</option>
                                 <option value="9">9:00</option>
                                 <option value="10">10:00</option>
@@ -242,6 +242,32 @@ Equipos
             <button type="submit" class="btn btn-primary">Guardar Equipos</button>
         </form>
 
+        <br>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category=='warning' %}<!-- Si la categoria es igual a warning se va a mostrar en amarillo el msj -->  
+                            <!-- <div class="alert alert-{{category}}"> {{message}} </div> -->
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong style="font-size: 14px;">{{ message }}</strong><!-- en esta etiqueta mandamos a imprimir el msj que se envia desde la ruta login  -->
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong style="font-size: 14px;">{{ message }}</strong> <!-- en esta etiqueta mandamos a imprimir el msj que se envia desde la ruta logout  -->
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <br>
+
+        
         <!-- Tabla de equipos -->
         <table style="position: absolute;right: 10px;top: 0px;left: 725px;"" class="showteams">
             <tr style="font-size: smaller; color: antiquewhite; border: 1px solid #ddd;">
@@ -262,7 +288,7 @@ Equipos
                 <td>{{ equipo[4] }}</td>
                 <td>
                     <div class="col-md-6 mx-auto">
-                        <a class="btn btn-info btn-block text-white" href="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo[0]) }}">Editar equipo</a>
+                        <a class="btn btn-info btn-block text-white" href="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo[0]) }}" >Editar equipo</a>
                     </div>
                 </td>
             </tr>

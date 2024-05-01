@@ -1,36 +1,61 @@
-{% extends '/base.html' %}
+<!-- esta sera la plantilla que va a renderizar la vista index desde el archivo __init__.py  -->
 
+<!-- Para comenzar debemos hacer un extends de body.html -->
+{% extends './body.html' %}
+
+<!-- modificando el bloque title el cual tendra de titulo index -->
 {% block title %}
-    To Do List
+Equipos
 {% endblock %}
 
-{% block CustomCSS %}<!-- Este bloque esta creado en la plantilla base.html y lo llamo aca para no ponerlo en la plantilla base.html de esa forma solo afectara a la plantilla logn.html -->
-    <link href="{{url_for('static', filename='css/login.css')}}" rel="stylesheet">
-{% endblock %}
+
 
 
 <!-- creamos el block del body que hereda desde base.html con su cierre -->
-{% block body %}
-    {% include './navbar.html' %}
-        <div class="container py-3">
-            <!-- este div contiene el bloque container que es el que tiene el h1 con el Hola mundo en la plantilla index.html -->
-            {% block container %}
-                {% for value_team in udpate_team %}
-                    <form class="form-signin text-center" action="{{ url_for('EquiposBlueprint.edit_equipo', id=value_team[0]) }}" method="post">
-
-                        <input type="hidden" name="csrf_token" ><!--Este input generara el token para la seguridad de nuestros formularios-->
-
-                        <h1 class="h3 mb-3 font-weight-normal">Update Task</h1>
-                        <div class="col-lg-7 container mr-2 ml-2 border border-secondary" style="right: auto;left: 300px;top: auto;bottom: 700px; text-align: center; " id="formularioeditequipo">
-                            <input type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo" value="{{ value_team[1] }}" required autofocus>
-                            <input type="text" id="representante" class="form-control" name="representante" placeholder="Representante" value="{{ value_team[2] }}" required autofocus>
-                            <input type="text" id="subrepresentante" class="form-control" name="subrepresentante" placeholder="Sub Representante" value="{{ value_team[3] }}" required autofocus>
-                            <input type="text" id="correo" class="form-control" name="correo" placeholder="Correo" value="{{ value_team[4] }}" required autofocus>
-                            <input type="text" id="grupo_id" class="form-control" name="grupo_id" placeholder="Grupo" value="{{ value_team[5] }}"  autofocus>
-                            <br>
-                            <button class="btn btn-lg btn-primary btn-block" type="submit">Update task</button>
-                        </div>
-                    </form>
-                {% endfor %}
-            {% endblock %}   
-        </div>
+{% block container %}
+        {% for value_team in udpate_team %}
+            <form class="m-3" style="width: auto; align-items: center;"
+                action="{{ url_for('EquiposBlueprint.edit_equipo', id=value_team[0]) }}" method="post">
+                <h1 class="h3 mb-3 font-weight-normal">Update Task</h1>
+                <div class="col-lg-7 container mr-2 ml-2 border border-secondary"
+                    style="right: auto;left: 300px;top: auto;bottom: 700px; text-align: center; " id="formularioeditequipo">
+                    <input type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo"
+                        value="{{ value_team[1] }}" required autofocus>
+                    <input type="text" id="representante" class="form-control" name="representante" placeholder="Representante"
+                        value="{{ value_team[2] }}" required autofocus>
+                    <input type="text" id="subrepresentante" class="form-control" name="subrepresentante"
+                        placeholder="Sub Representante" value="{{ value_team[3] }}" required autofocus>
+                    <input type="text" id="correo" class="form-control" name="correo" placeholder="Correo"
+                        value="{{ value_team[4] }}" required autofocus>
+                    <input type="text" id="grupo_id" class="form-control" name="grupo_id" placeholder="Grupo"
+                        value="{{ value_team[5] }}" autofocus>
+                    <br>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Update task</button>
+                </div>
+            </form>
+            <br>
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        {% if category=='warning' %}<!-- Si la categoria es igual a warning se va a mostrar en amarillo el msj -->  
+                                <!-- <div class="alert alert-{{category}}"> {{message}} </div> -->
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong style="font-size: 14px;">{{ message }}</strong><!-- en esta etiqueta mandamos a imprimir el msj que se envia desde la ruta login  -->
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong style="font-size: 14px;">{{ message }}</strong> <!-- en esta etiqueta mandamos a imprimir el msj que se envia desde la ruta logout  -->
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <br>
+        {% endfor %}
+{% endblock %}
