@@ -34,10 +34,11 @@ def equipos():
                 print(i, 'Valor de la lista que se obtiene del formulario')
             # print(type(dia_lunes))
             for dia in dia_lunes:
-                inicio = request.form['horas[{}][inicio]'.format(dia)]
-                fin = request.form['horas[{}][fin]'.format(dia)]
+                inicio =int(request.form['horas[{}][inicio]'.format(dia)])
+                # print(type(inicio), "miercoles")
+                fin =  int(request.form['horas[{}][fin]'.format(dia) ])
                 if  inicio < fin:
-                    horas_por_dia[dia] = {dia:{'inicio': inicio, 'fin': fin}}
+                    horas_por_dia[dia] = {dia :{'inicio': inicio, 'fin': fin}}
                 else:
                     flash('La hora final debe ser distinta a la inicial', 'error')
                     return redirect(url_for( "EquiposBlueprint.equipos" ))
@@ -46,8 +47,9 @@ def equipos():
 
             dia_martes = request.form.getlist( 'dias[martes]' )
             for dia in dia_martes:
-                inicio = request.form['horas[{}][inicio]'.format(dia)]
-                fin = request.form['horas[{}][fin]'.format(dia)]
+                inicio =int(request.form['horas[{}][inicio]'.format(dia)])
+                # print(type(inicio), "miercoles")
+                fin =  int(request.form['horas[{}][fin]'.format(dia) ])
                 if  inicio < fin:
                     horas_por_dia[dia] = {dia :{'inicio': inicio, 'fin': fin}}
                 else:
@@ -58,8 +60,9 @@ def equipos():
 
             dia_miercoles = request.form.getlist('dias[miercoles]')
             for dia in dia_miercoles:
-                inicio =request.form['horas[{}][inicio]'.format(dia)]
-                fin =  request.form['horas[{}][fin]'.format(dia) ]
+                inicio =int(request.form['horas[{}][inicio]'.format(dia)])
+                # print(type(inicio), "miercoles")
+                fin =  int(request.form['horas[{}][fin]'.format(dia) ])
                 if  inicio < fin:
                     horas_por_dia[dia] = {dia :{'inicio': inicio, 'fin': fin}}
                 else:
@@ -70,8 +73,9 @@ def equipos():
 
             dia_jueves= request.form.getlist('dias[jueves]')
             for dia in dia_jueves:
-                inicio = request.form['horas[{}][inicio]'.format((dia))]
-                fin = request.form['horas[{}][fin]'.format(dia)]
+                inicio =int(request.form['horas[{}][inicio]'.format(dia)])
+                # print(type(inicio), "miercoles")
+                fin =  int(request.form['horas[{}][fin]'.format(dia) ])
                 if  inicio < fin:
                     horas_por_dia[dia] = {dia :{'inicio': inicio, 'fin': fin}}
                 else:
@@ -82,9 +86,10 @@ def equipos():
 
             dia_viernes = request.form.getlist('dias[viernes]')
             for dia in dia_viernes:
-                inicio =request.form['horas[{}][inicio]'.format(dia)]
-                fin = request.form['horas[{}][fin]'.format(dia)]
-                if inicio < fin:
+                inicio =int(request.form['horas[{}][inicio]'.format(dia)])
+                # print(type(inicio), "miercoles")
+                fin =  int(request.form['horas[{}][fin]'.format(dia) ])
+                if  inicio < fin:
                     horas_por_dia[dia] = {dia :{'inicio': inicio, 'fin': fin}}
                 else:
                     flash('La hora final debe ser distinta a la inicial', 'error')
