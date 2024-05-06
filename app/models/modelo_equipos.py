@@ -34,20 +34,22 @@ class ModeloEquipos():
     def update_equipos(self, update):
         connection = get_connection()
         try:
-            print(update.representante, "Este es el nuevo estado que se le dara si se le da click al boton done")
+            print(update.representante, update.id,"Este es el nuevo estado que se le dara si se le da click al boton done")
             '''Marcar como realizada'''
             with connection.cursor() as cursor:
-                cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE nombre_equipo = %s AND correo = %s", (update.nombre_equipo,update.correo,))
+                cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE id = %s ", (update.id,))
                 data = cursor.fetchone()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
                 #fectchone es para verificar si almenos una linea completa de la tabla coincide y fetchall busca coincidencias en todas las lineas de la tabla
             print(data, "Imprimiendo la variable result ")
             if data is not None:
                     with connection.cursor() as cursor:
-                        cursor.execute("UPDATE equipos SET  nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE nombre_equipo = %s AND correo = %s", (update.nombre_equipo, update.representante, update.subrepresentante, update.correo, update.grupo_id,))
+                        #UPDATE `equipos` SET `nombre_equipo` = 'Barcelona ', `representante` = 'Marcelo Sanchez', `subrepresentante` = 'Gloria Vasquez', `correo` = 'marcelosanchez1506@gmail.com' WHERE `equipos`.`id` = 93;
+                        cursor.execute("UPDATE `equipos` SET `nombre_equipo` = %s, `representante` = %s, `subrepresentante` =  %s, `correo` = %s WHERE `equipos`.`id` = %s ", (update.nombre_equipo, update.representante, update.subrepresentante, update.correo, data[0],))
                         Updated = cursor.fetchone()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
                         #fectchone es para verificar si almenos una linea completa de la tabla coincide y fetchall busca coincidencias en todas las lineas de la tabla
-                    updating_team = Equipos(id = data[0] , nombre_equipo=data[1], representante=update.estado, subrepresentante=data[3], correo=data[4], grupo_id=data[5])
-                    print(updating_team, "Imprimiendo lo que se le envia a la clase Usuario desde cuando se le envian las cosas despues de hacer el update del estado")
+                        connection.commit()
+                    updating_team = Equipos(id = update.id , nombre_equipo=update.nombre_equipo, representante=update.representante, subrepresentante=update.subrepresentante, correo=update.correo, grupo_id=update.grupo_id)
+                    print(updating_team, "Imprimiendo lo que se le envia a la clase Usuario desde cuando se le envian las cosas despues de hacer el update del equipo")
                     return Updated, updating_team
             else:
                     flash('Fallo actualizando datos del equipo', 'warning')
@@ -55,4 +57,12 @@ class ModeloEquipos():
         except  Exception as ex:
             print(f"Error durante la actualizacion: {ex}")
             flash('This update has already been completed','warning')
-            # raise Exception(str(ex))
+            raise Exception(str(ex))
+
+
+    @classmethod
+    def delete_equipos(self, delete_equipo):
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM equipos WHERE id = %s ", (delete_equipo.id,))
+            connection.commit()

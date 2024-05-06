@@ -6,12 +6,12 @@ horariosBlueprint=Blueprint("horariosBlueprint", __name__)
 
 @horariosBlueprint.route("/horarios")
 @login_required
-def horarios():
+def horarios(horarios):
     print("usuario autenticado desde Equipos ", current_user.is_authenticated )
     if current_user.is_authenticated:
         if request.method == "POST":
-            dias= request.form["dias[]"]
-            print(dias)
+
+
             return render_template("equipos.html")
         return render_template("horarios.html")
     else:

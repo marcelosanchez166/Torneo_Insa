@@ -13,27 +13,22 @@ Equipos
 
 <!-- creamos el block del body que hereda desde base.html con su cierre -->
 {% block container %}
-        {% for value_team in udpate_team %}
+        {% for value_team in sends_teams %}
             <form class="m-3" style="width: auto; align-items: center;"
                 action="{{ url_for('EquiposBlueprint.edit_equipo', id=value_team[0]) }}" method="post">
                 <h1 class="h3 mb-3 font-weight-normal">Update Task</h1>
-                <div class="col-lg-7 container mr-2 ml-2 border border-secondary"
-                    style="right: auto;left: 300px;top: auto;bottom: 700px; text-align: center; " id="formularioeditequipo">
-                    <input type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo"
-                        value="{{ value_team[1] }}" required autofocus>
-                    <input type="text" id="representante" class="form-control" name="representante" placeholder="Representante"
-                        value="{{ value_team[2] }}" required autofocus>
-                    <input type="text" id="subrepresentante" class="form-control" name="subrepresentante"
-                        placeholder="Sub Representante" value="{{ value_team[3] }}" required autofocus>
-                    <input type="text" id="correo" class="form-control" name="correo" placeholder="Correo"
-                        value="{{ value_team[4] }}" required autofocus>
-                    <input type="text" id="grupo_id" class="form-control" name="grupo_id" placeholder="Grupo"
-                        value="{{ value_team[5] }}" autofocus>
+                <div class="col-lg-7 container mr-2 ml-2 border border-secondary" style="right: auto;left: 300px;top: auto;bottom: 700px; text-align: center; " id="formularioeditequipo">
+                    <input type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo" value="{{ value_team[1] }}" required autofocus>
+                    <input type="text" id="representante" class="form-control" name="representante" placeholder="Representante" value="{{ value_team[2] }}" required autofocus>
+                    <input type="text" id="subrepresentante" class="form-control" name="subrepresentante" placeholder="Sub Representante" value="{{ value_team[3] }}" required autofocus>
+                    <input type="text" id="correo" class="form-control" name="correo" placeholder="Correo" value="{{ value_team[4] }}" required autofocus>
+                    <!-- <input type="text" id="grupo_id" class="form-control" name="grupo_id" placeholder="Grupo" value="{{ value_team[5] }}" autofocus> -->
                     <br>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Update task</button>
                 </div>
             </form>
-            <br>
+        {% endfor %}
+        <br>
             {% with messages = get_flashed_messages(with_categories=True) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -56,6 +51,5 @@ Equipos
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-            <br>
-        {% endfor %}
+        <br>
 {% endblock %}
