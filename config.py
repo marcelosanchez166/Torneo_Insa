@@ -14,7 +14,8 @@ class Config():
     SECRET_KEY = config('SECRET_KEY')
     PASSWORD = config('MYSQL_PASSWORD')
     USER = config('MYSQL_USER')
-    print(PASSWORD, USER)
+    DB = config("MYSQL_DB")
+    print(PASSWORD, USER, DB)
 
 
 class DevelopmentConfig(Config):

@@ -169,13 +169,14 @@ def delete_equipo(id):
     """Elimina un equipo en base a su id"""
     connection = get_connection()
     with connection.cursor() as cursor:
-        cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE id = %s", (id,))
+        cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo FROM equipos WHERE id = %s", (id,))
         result = cursor.fetchone()
-    if result is not None :
+    if result is not None or result > 0:
         delete_equipo = Equipos(id, None, None, None, None, None)
         delete_equipos = ModeloEquipos.delete_equipos(delete_equipo)
         if delete_equipos is not None:
             flash('El equipo ha sido eliminado exitosamente','success')
+            return redirect(url_for("EquiposBlueprint.equipos"))
         else:
             flash ('No se encontró el equipo que deseas borrar','warning')
             # return redirect (url_for('EquiposBlueprint.equipos'))
@@ -183,5 +184,5 @@ def delete_equipo(id):
             cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id  FROM equipos")
             data = cursor.fetchall()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
             print(data[0])
-        return render_template("Equipos.html", data=data)
+            return render_template("Equipos.html", data=data)
     return redirect(url_for("EquiposBlueprint.equipos"))
