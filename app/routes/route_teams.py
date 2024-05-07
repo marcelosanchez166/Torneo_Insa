@@ -23,13 +23,6 @@ def equipos():
             nombre_equipo =  request.form["Nombre_Equipo"]
             print(representante,subrepresentante,correo,nombre_equipo)
 
-            # hora_inicio_lunes = request.form['horas[lunes][inicio]']
-            # print(hora_inicio_lunes, "hora inicio lunes")
-            # hora_fin_lunes = request.form['horas[lunes][fin]']
-            # print(hora_fin_lunes, "hora fin lunes")
-            # dia = request.form['dias[lunes]']
-            # print(dia, "chekeado")
-
             dia_lunes = request.form.getlist( 'dias[lunes]' )
             horas_por_dia = {}
             # print(type(dia_lunes))
@@ -98,23 +91,26 @@ def equipos():
 
             print(horas_por_dia, "diccionario de los dias y horas ")
 
+            if len(horas_por_dia) >0:
+                Add_Equipos = Equipos(None,nombre_equipo, representante, subrepresentante, correo,  None)
+                print("DEsde la instancia de Equipos",Add_Equipos.correo, Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante)
+                Add_teams = ModeloEquipos.add_teams( Add_Equipos)
 
-            Add_Equipos = Equipos(None,nombre_equipo, representante, subrepresentante, correo,  None)
-            print("DEsde la instancia de Equipos",Add_Equipos.correo, Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante)
-            Add_teams = ModeloEquipos.add_teams( Add_Equipos)
-            #print("Addteams intancia valor",Add_teams)
-            if Add_teams is not None:
-                flash('User successfully registered', 'success')
-                horarios(horas_por_dia)
-                    # return render_template("Equipos.html")
-            else :
-                flash('Error in the registration process ', 'warning')
+                """Enviar los horarios a la ruta de agregar horarios para que sean enviados a la clase Modelo_Horarios"""
+                enviar_horarios = horarios(horas_por_dia)
+
+                if Add_teams is not None:
+                    flash('User successfully registered', 'success')
+                else :
+                    flash('Error in the registration process ', 'warning')
+                    return redirect(url_for('EquiposBlueprint.equipos'))
+            else:
+                flash('Debes completar todos los capos del formulario', 'error')
                 return redirect(url_for('EquiposBlueprint.equipos'))
         connection= get_connection()
         with connection.cursor() as cursor:
             cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos ")
             data = cursor.fetchall()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
-            #print(data[0])
             return render_template("Equipos.html", data=data)
     else:
         flash('You must be logged in to access this page', 'warning')
@@ -143,7 +139,7 @@ def edit_equipo(id):
             try:
                 update_equipos = ModeloEquipos.update_equipos(update) 
                 if update_equipos is  not None:#Pregunto si la instancia del metodo de clase es diferente de None entonces que envie un mensaje flash diciendo que se elimino la tarea ya que el proceso de eliminacion se hara en el metodo de instancia de  ModeloTareas.delete_tarea
-                    flash("Equipos Actualizado correctamente", "success")
+                    flash("Equipo actualizado correctamente", "success")
                     return redirect(url_for("EquiposBlueprint.equipos"))
                 else:
                     flash("Error actualizando el equipo", "warning")#Si la eliminacion de la tarea en el metodo de clase  ModeloTareas.delete_tarea falla se mostrara este msj
@@ -171,7 +167,7 @@ def delete_equipo(id):
     with connection.cursor() as cursor:
         cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo FROM equipos WHERE id = %s", (id,))
         result = cursor.fetchone()
-    if result is not None or result > 0:
+    if result is not None :
         delete_equipo = Equipos(id, None, None, None, None, None)
         delete_equipos = ModeloEquipos.delete_equipos(delete_equipo)
         if delete_equipos is not None:
@@ -180,9 +176,9 @@ def delete_equipo(id):
         else:
             flash ('No se encontró el equipo que deseas borrar','warning')
             # return redirect (url_for('EquiposBlueprint.equipos'))
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id  FROM equipos")
-            data = cursor.fetchall()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
-            print(data[0])
-            return render_template("Equipos.html", data=data)
-    return redirect(url_for("EquiposBlueprint.equipos"))
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id  FROM equipos")
+        data = cursor.fetchall()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
+        print(data[0])
+        return render_template("Equipos.html", data=data)
+    # return redirect(url_for("EquiposBlueprint.equipos"))

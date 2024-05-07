@@ -2,7 +2,7 @@ from app.models.entities.equipos import Equipos
 #from app import current_user
 from flask import flash, render_template, redirect, url_for, flash
 from app.database.db import get_connection
-
+from app.models.modelo_horarios import Modelo_horarios
 
 class ModeloEquipos():
     @classmethod
@@ -16,6 +16,7 @@ class ModeloEquipos():
                 #fectchone es para verificar si almenos una linea completa de la tabla coincide y fetchall busca coincidencias en todas las lineas de la tabla
                 #print("Imprimiendo data que se obtiene de la base de datos con el select",data[1], data[4])
                 if  data is None or data == None:  # si no hay registros en la tabla devuelve None
+                    enviar_id_equipo = Modelo_horarios.agregar_horarios(data[0])
                     sql= """INSERT INTO equipos (nombre_equipo, representante, subrepresentante, correo)  VALUES (%s,%s,%s,%s)"""
                     cursor.execute(sql,(Add_Equipos.nombre_equipo,Add_Equipos.representante, Add_Equipos.subrepresentante, Add_Equipos.correo))
                     connection.commit()
@@ -64,5 +65,17 @@ class ModeloEquipos():
     def delete_equipos(self, delete_equipo):
         connection = get_connection()
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM equipos WHERE id = %s ", (delete_equipo.id,))
-            connection.commit()
+            cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE id = %s ", (delete_equipo.id,))
+            data = cursor.fetchone()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
+            #fectchone es para verificar si almenos una linea completa de la tabla coincide y fetchall busca coincidencias en todas las lineas de la tabla
+            print(data, "Imprimiendo la variable result ")
+            if data is not None:
+                with connection.cursor() as cursor:
+                    cursor.execute("DELETE FROM equipos WHERE id = %s ", (delete_equipo.id,))
+                    connection.commit()
+                deleting_team = Equipos(id = delete_equipo.id , nombre_equipo=delete_equipo.nombre_equipo, representante=delete_equipo.representante, subrepresentante=delete_equipo.subrepresentante, correo=delete_equipo.correo, grupo_id=delete_equipo.grupo_id)
+                print(deleting_team, "Imprimiendo lo que se le envia a la clase Equipos desde cuando se le envian las cosas despues de hacer el update del equipo")
+                return  deleting_team
+            else:
+                flash('Fallo actualizando datos del equipo', 'warning')
+                return render_template("Equipos.html")
