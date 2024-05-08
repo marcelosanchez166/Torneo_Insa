@@ -14,6 +14,7 @@ EquiposBlueprint=Blueprint("EquiposBlueprint", __name__)
 @login_required
 @EquiposBlueprint.route("/equipos", methods=["GET", "POST"])
 def equipos():
+    horas_por_dia = {}
     print("usuario autenticado desde Equipos ", current_user.is_authenticated )
     if current_user.is_authenticated:
         if request.method == "POST":
@@ -24,7 +25,7 @@ def equipos():
             print(representante,subrepresentante,correo,nombre_equipo)
 
             dia_lunes = request.form.getlist( 'dias[lunes]' )
-            horas_por_dia = {}
+            
             # print(type(dia_lunes))
             for dia in dia_lunes:
                 inicio =int(request.form['horas[{}][inicio]'.format(dia)])
@@ -96,11 +97,14 @@ def equipos():
                 print("DEsde la instancia de Equipos",Add_Equipos.correo, Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante)
                 Add_teams = ModeloEquipos.add_teams( Add_Equipos)
 
-                """Enviar los horarios a la ruta de agregar horarios para que sean enviados a la clase Modelo_Horarios"""
-                enviar_horarios = horarios(horas_por_dia)
+
 
                 if Add_teams is not None:
+                    
                     flash('User successfully registered', 'success')
+                    """Enviar los horarios a la ruta de agregar horarios para que sean enviados a la clase Modelo_Horarios"""
+                    enviar_horarios = horarios(horas_por_dia)
+                    return enviar_horarios
                 else :
                     flash('Error in the registration process ', 'warning')
                     return redirect(url_for('EquiposBlueprint.equipos'))
