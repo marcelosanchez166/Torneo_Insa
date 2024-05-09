@@ -1,9 +1,11 @@
-from flask import flash
+from flask import flash, render_template
 from app.database.db import get_connection
+from app.models.entities.horarios import Horarios
 
 class Modelo_horarios:
     @classmethod
-    def agregar_horarios(self,id_equipo, horarios):
+    def agregar_horarios(self,horas_por_dia, id_equipo):
+        print(horas_por_dia, "Horarios desde el metodo agregar horarios clase Modelo horarios")
         connection = get_connection()
         try:
             with connection.cursor() as cursor:
@@ -11,8 +13,14 @@ class Modelo_horarios:
                 data = cursor.fetchone()
                 if data is not None:
                     sql= """INSERT INTO `horarios` (`id_equipo`, `dia`, `hora_inicio`, `hora_fin`)  VALUES (%s,%s,%s,%s)"""
-                    cursor.execute(sql,(horarios.id_equipo, horarios.dia, horarios.hora_inicio, horarios.hora_fin))
+                    cursor.execute(sql,(horas_por_dia.id_equipo, horas_por_dia.dia, horas_por_dia.hora_inicio, horas_por_dia.hora_fin))
                     connection.commit()
+                    add_horarios = Horarios(id = horas_por_dia.id , id_equipo=horas_por_dia.id_equipo, dia=horas_por_dia.dia, hora_inicio=horas_por_dia.hora_inicio, correo=horas_por_dia.hora_fin)
+                    print(add_horarios, "Imprimiendo lo que se le envia a la clase Usuario desde cuando se le envian las cosas despues de hacer el update del equipo")
+                    return add_horarios
+                else:
+                    flash('Fallo actualizando datos del equipo', 'warning')
+                    return render_template("Equipos.html")
         except Exception as ex:
-            print(f"Error durante la inserción: {ex}")
+            print(f"Error durante la inserción de los horarios a la tabla horarios: {ex}")
             return flash('Error agregando el equipo a la base de datos', 'warning')

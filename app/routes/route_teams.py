@@ -95,18 +95,11 @@ def equipos():
             if len(horas_por_dia) >0:
                 Add_Equipos = Equipos(None,nombre_equipo, representante, subrepresentante, correo,  None)
                 print("DEsde la instancia de Equipos",Add_Equipos.correo, Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante)
-                Add_teams = ModeloEquipos.add_teams( Add_Equipos)
-
-
-
+                Add_teams = ModeloEquipos.add_teams(horas_por_dia, Add_Equipos)
                 if Add_teams is not None:
-                    
                     flash('User successfully registered', 'success')
-                    """Enviar los horarios a la ruta de agregar horarios para que sean enviados a la clase Modelo_Horarios"""
-                    enviar_horarios = horarios(horas_por_dia)
-                    return enviar_horarios
                 else :
-                    flash('Error in the registration process ', 'warning')
+                    # flash('Error in the registration process ', 'warning')
                     return redirect(url_for('EquiposBlueprint.equipos'))
             else:
                 flash('Debes completar todos los capos del formulario', 'error')
