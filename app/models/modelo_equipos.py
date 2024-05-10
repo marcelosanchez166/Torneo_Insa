@@ -7,9 +7,10 @@ from app.models.modelo_horarios import Modelo_horarios
 class ModeloEquipos():
     @classmethod
     def add_teams(self,horas_por_dia, Add_Equipos):
+        print(horas_por_dia,"Estos son los horarios que se envian  ")
         print("Desde metodo addteams de ModeloEquipos",Add_Equipos.nombre_equipo,Add_Equipos.representante,Add_Equipos.subrepresentante,  Add_Equipos.correo )
         connection = get_connection()
-        print(horas_por_dia,"Estos son los horarios que se envian  ")
+
         try:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE nombre_equipo = %s AND correo = %s", (Add_Equipos.nombre_equipo,Add_Equipos.correo,))
