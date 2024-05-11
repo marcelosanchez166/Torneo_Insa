@@ -19,13 +19,19 @@ class ModeloEquipos():
                 #print("Imprimiendo data que se obtiene de la base de datos con el select",data[1], data[4])
                 print(data[0],"Este es el id del equipo ")
                 if  data is None or data == None:  # si no hay registros en la tabla devuelve None
-                    enviar_horarios = Modelo_horarios.agregar_horarios(horas_por_dia,data[0])
                     sql= """INSERT INTO equipos (nombre_equipo, representante, subrepresentante, correo)  VALUES (%s,%s,%s,%s)"""
                     cursor.execute(sql,(Add_Equipos.nombre_equipo,Add_Equipos.representante, Add_Equipos.subrepresentante, Add_Equipos.correo))
                     connection.commit()
-                    agregar_equipo = Equipos(id = None , nombre_equipo=Add_Equipos.nombre_equipo, representante=Add_Equipos.representante, subrepresentante=Add_Equipos.subrepresentante, correo= Add_Equipos.correo, grupo_id= None )
-                    print(agregar_equipo, "Imprimiendo lo que se le envia a la clase Equipos desde el metodo de clase add_teams cuando se le envian las cosas despues de hacer el insert")
-                    return agregar_equipo, enviar_horarios
+                    with connection.cursor() as cursor:
+                        cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE nombre_equipo = %s AND correo = %s", (Add_Equipos.nombre_equipo,Add_Equipos.correo,))
+                        data2 = cursor.fetchone()
+                        if Modelo_horarios.agregar_horarios(horas_por_dia,data2[0]):
+                            agregar_equipo = Equipos(id = None , nombre_equipo=Add_Equipos.nombre_equipo, representante=Add_Equipos.representante, subrepresentante=Add_Equipos.subrepresentante, correo= Add_Equipos.correo, grupo_id= None )
+                            print(agregar_equipo, "Imprimiendo lo que se le envia a la clase Equipos desde el metodo de clase add_teams cuando se le envian las cosas despues de hacer el insert")
+                            return agregar_equipo
+                        else:
+                            flash('Fallo insertando horarios', 'warning')
+                            return None
                 else:
                     flash("The team exist","warning")
                     return render_template("Equipos.html")
