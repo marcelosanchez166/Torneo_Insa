@@ -1,43 +1,43 @@
 from app.models.entities.equipos import Equipos
-#from app import current_user
-from flask import flash, render_template, redirect, url_for, flash
+from flask import flash, render_template
 from app.database.db import get_connection
 from app.models.modelo_horarios import Modelo_horarios
 
-class ModeloEquipos():
+class ModeloEquipos:
     @classmethod
-    def add_teams(self,horas_por_dia, Add_Equipos):
-        print(horas_por_dia,"Estos son los horarios que se envian  ")
-        print("Desde metodo addteams de ModeloEquipos",Add_Equipos.nombre_equipo,Add_Equipos.representante,Add_Equipos.subrepresentante,  Add_Equipos.correo )
+    def add_teams(self, horas_por_dia, Add_Equipos):
+        print("Desde metodo addteams de ModeloEquipos", Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante, Add_Equipos.correo)
         connection = get_connection()
-
         try:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE nombre_equipo = %s AND correo = %s", (Add_Equipos.nombre_equipo,Add_Equipos.correo,))
-                data = cursor.fetchone()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
-                #fectchone es para verificar si almenos una linea completa de la tabla coincide y fetchall busca coincidencias en todas las lineas de la tabla
-                #print("Imprimiendo data que se obtiene de la base de datos con el select",data[1], data[4])
-                print(data[0],"Este es el id del equipo ")
-                if  data is None or data == None:  # si no hay registros en la tabla devuelve None
-                    sql= """INSERT INTO equipos (nombre_equipo, representante, subrepresentante, correo)  VALUES (%s,%s,%s,%s)"""
-                    cursor.execute(sql,(Add_Equipos.nombre_equipo,Add_Equipos.representante, Add_Equipos.subrepresentante, Add_Equipos.correo))
+                cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo FROM equipos WHERE nombre_equipo = %s OR correo = %s", (Add_Equipos.nombre_equipo, Add_Equipos.correo,))
+                data = cursor.fetchone()
+                print(data)
+
+                if data is None:  # si no hay registros en la tabla devuelve None
+                    sql = """INSERT INTO equipos (nombre_equipo, representante, subrepresentante, correo) VALUES (%s, %s, %s, %s)"""
+                    cursor.execute(sql, (Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante, Add_Equipos.correo))
                     connection.commit()
-                    with connection.cursor() as cursor:
-                        cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE nombre_equipo = %s AND correo = %s", (Add_Equipos.nombre_equipo,Add_Equipos.correo,))
-                        data2 = cursor.fetchone()
-                        if Modelo_horarios.agregar_horarios(horas_por_dia,data2[0]):
-                            agregar_equipo = Equipos(id = None , nombre_equipo=Add_Equipos.nombre_equipo, representante=Add_Equipos.representante, subrepresentante=Add_Equipos.subrepresentante, correo= Add_Equipos.correo, grupo_id= None )
-                            print(agregar_equipo, "Imprimiendo lo que se le envia a la clase Equipos desde el metodo de clase add_teams cuando se le envian las cosas despues de hacer el insert")
-                            return agregar_equipo
-                        else:
-                            flash('Fallo insertando horarios', 'warning')
-                            return None
+
+                    # Obtener el ID del equipo recién insertado
+                    cursor.execute("SELECT id FROM equipos WHERE nombre_equipo = %s", (Add_Equipos.nombre_equipo,))
+                    data3 = cursor.fetchone()
+
+                    if data3:
+                        team_id = data3[0]
+                        add_horarios = Modelo_horarios.agregar_horarios(horas_por_dia, team_id)
+                        return True
+                    else:
+                        flash("Error retrieving the newly inserted team's ID", "warning")
+                        return None
                 else:
-                    flash("The team exist","warning")
+                    flash("The team already exists", "warning")
                     return render_template("Equipos.html")
         except Exception as ex:
             print(f"Error durante la inserción de equipos: {ex}")
-            return flash('Error agregando el equipo a la base de datos', 'warning')
+            flash('Error adding the team to the database', 'warning')
+            return None
+
 
 
     @classmethod
@@ -80,8 +80,17 @@ class ModeloEquipos():
             print(data, "Imprimiendo la variable result ")
             if data is not None:
                 with connection.cursor() as cursor:
-                    cursor.execute("DELETE FROM equipos WHERE id = %s ", (delete_equipo.id,))
+
+                    # Eliminar los horarios asociados primero
+                    cursor.execute("DELETE FROM horarios WHERE id_equipo = %s", (delete_equipo.id,))
                     connection.commit()
+                    
+                    # Ahora eliminar el equipo
+                    cursor.execute("DELETE FROM equipos WHERE id = %s", (delete_equipo.id,))
+                    connection.commit()
+
+                    # cursor.execute("DELETE FROM equipos WHERE id = %s ", (delete_equipo.id,))
+                    # connection.commit()
                 deleting_team = Equipos(id = delete_equipo.id , nombre_equipo=delete_equipo.nombre_equipo, representante=delete_equipo.representante, subrepresentante=delete_equipo.subrepresentante, correo=delete_equipo.correo, grupo_id=delete_equipo.grupo_id)
                 print(deleting_team, "Imprimiendo lo que se le envia a la clase Equipos desde cuando se le envian las cosas despues de hacer el update del equipo")
                 return  deleting_team

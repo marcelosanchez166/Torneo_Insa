@@ -6,7 +6,8 @@ from app.models.entities.equipos import Equipos
 from app.models.modelo_equipos import ModeloEquipos
 from app.database.db import  get_connection
 
-from app.routes.route_dates import horarios
+from app.models.modelo_horarios import Modelo_horarios
+
 
 
 EquiposBlueprint=Blueprint("EquiposBlueprint", __name__)
@@ -24,9 +25,8 @@ def equipos():
             nombre_equipo =  request.form["Nombre_Equipo"]
             print(representante,subrepresentante,correo,nombre_equipo)
 
+
             dia_lunes = request.form.getlist( 'dias[lunes]' )
-            
-            # print(type(dia_lunes))
             for dia in dia_lunes:
                 inicio =int(request.form['horas[{}][inicio]'.format(dia)])
                 # print(type(inicio), "miercoles")
@@ -91,19 +91,19 @@ def equipos():
                 print("Imprimiendo el dia y las horas virnesssss ",dia,horas_por_dia[dia])
 
             print(horas_por_dia, "diccionario de los dias y horas ")
-
-            if len(horas_por_dia) >0:
-                Add_Equipos = Equipos(None,nombre_equipo, representante, subrepresentante, correo,  None)
+            Add_Equipos = Equipos(None,nombre_equipo, representante, subrepresentante, correo,  None)
+            if Add_Equipos:
                 print("DEsde la instancia de Equipos",Add_Equipos.correo, Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante)
-                Add_teams = ModeloEquipos.add_teams(horas_por_dia, Add_Equipos)
-                if Add_teams is not None:
-                    flash('User successfully registered', 'success')
-                else :
-                    # flash('Error in the registration process ', 'warning')
+                if len(horas_por_dia) >0:
+                    Add_teams = ModeloEquipos.add_teams(horas_por_dia,Add_Equipos)
+                    # if Add_teams is not None:
+                    #     flash('Equipo registrado', 'success')
+                    # else :
+                    #     flash('Error in the registration process ', 'warning')
+                    #     return redirect(url_for('EquiposBlueprint.equipos'))
+                else:
+                    flash('Debes completar todos los capos del formulario', 'error')
                     return redirect(url_for('EquiposBlueprint.equipos'))
-            else:
-                flash('Debes completar todos los capos del formulario', 'error')
-                return redirect(url_for('EquiposBlueprint.equipos'))
         connection= get_connection()
         with connection.cursor() as cursor:
             cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos ")
