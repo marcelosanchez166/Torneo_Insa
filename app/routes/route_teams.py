@@ -120,38 +120,63 @@ def equipos():
 def edit_equipo(id):
     connection = get_connection()
     with connection.cursor() as cursor:
-        cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos  WHERE id= %s", (id) )
-        data = cursor.fetchone()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
-        #print(data[0], data[1], data, "Data obtenida del select de edit_team")
+        cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE id= %s", (id,))
+        data = cursor.fetchone()
+
     if request.method == "POST":
         if data is not None:
             nombre_equipo = request.form['nombre_equipo']
             representante = request.form['representante']
             subrepresentante = request.form['subrepresentante']
             correo = request.form["correo"]
-            #grupo_id = request.form["grupo_id"]
-            print("Entro al post desde el formulario el nombre nuevo de la tarea", nombre_equipo, representante, subrepresentante, correo, None)
             update = Equipos(id, nombre_equipo, representante, subrepresentante, correo, None)
-            print(update.id, update.nombre_equipo, update.representante, update.subrepresentante, update.correo, None, "lo que se le envia a la clase Equipos \n")
             try:
                 update_equipos = ModeloEquipos.update_equipos(update) 
-                if update_equipos is  not None:#Pregunto si la instancia del metodo de clase es diferente de None entonces que envie un mensaje flash diciendo que se elimino la tarea ya que el proceso de eliminacion se hara en el metodo de instancia de  ModeloTareas.delete_tarea
+                if update_equipos is not None:
                     flash("Equipo actualizado correctamente", "success")
                     return redirect(url_for("EquiposBlueprint.equipos"))
                 else:
-                    flash("Error actualizando el equipo", "warning")#Si la eliminacion de la tarea en el metodo de clase  ModeloTareas.delete_tarea falla se mostrara este msj
-            except  Exception as ex:
+                    flash("Error actualizando el equipo", "warning")
+            except Exception as ex:
                 flash("Error al actualizar los datos del equipo", "warning")
-                print ("Error al actualizar los datos del equipo",ex)
+                print("Error al actualizar los datos del equipo", ex)
         else:
             return render_template("edit_equipos.html")
-    # Obtener todas las tareas asociadas al usuario después de eliminar la tarea en el metodo de clase  ModeloTareas.delete_tarea, esta nueva lista de tareas se envia con la renderizacion de la plantilla task.html de la siguiente forma return render_template("task.html", send_tasks=send_tasks)
-    connection= get_connection()
+
+    connection = get_connection()
     with connection.cursor() as cursor:
-        cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE id = %s ",(id,))
-        data2 = cursor.fetchall()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
-        print(data[0])
-    return render_template("edit_equipos.html", sends_teams = data2 )
+        cursor.execute("""
+            SELECT 
+                equipos.id, 
+                equipos.nombre_equipo, 
+                equipos.representante, 
+                equipos.subrepresentante, 
+                equipos.correo, 
+                horarios.dia, 
+                horarios.hora_inicio, 
+                horarios.hora_fin 
+            FROM 
+                equipos 
+            JOIN 
+                horarios 
+            ON 
+                equipos.id = horarios.id_equipo 
+            WHERE 
+                equipos.id = %s
+        """, (id,))
+        data2 = cursor.fetchall()
+
+    # Combinamos los resultados en una estructura más adecuada
+    equipo = {
+        'id': data2[0][0],
+        'nombre_equipo': data2[0][1],
+        'representante': data2[0][2],
+        'subrepresentante': data2[0][3],
+        'correo': data2[0][4],
+        'horarios': [{'dia': row[5], 'hora_inicio': row[6], 'hora_fin': row[7]} for row in data2]
+    }
+
+    return render_template("edit_equipos.html", equipo=equipo)
 
 
 
