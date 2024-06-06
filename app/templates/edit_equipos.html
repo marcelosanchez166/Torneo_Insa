@@ -9,29 +9,31 @@ Equipos
 {% endblock %}
 
 
-
+{% block CustomCSS %}
+<link href="{{url_for('static', filename='css/equipos.css')}}" rel="stylesheet">
+{% endblock %}
 
 <!-- creamos el block del body que hereda desde base.html con su cierre -->
 {% block container %}
-    <form class="m-3" style="width: auto; align-items: center;" action="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo.id) }}" method="post">
-        <h1 class="h3 mb-3 font-weight-normal">Update Task</h1>
-        <div class="col-lg-7 container mr-2 ml-2 border border-secondary" style="right: auto;left: 300px;top: auto;bottom: 700px; text-align: center;" id="formularioeditequipo">
-            <input type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo" value="{{ equipo.nombre_equipo }}" required autofocus>
-            <input type="text" id="representante" class="form-control" name="representante" placeholder="Representante" value="{{ equipo.representante }}" required autofocus>
-            <input type="text" id="subrepresentante" class="form-control" name="subrepresentante" placeholder="Sub Representante" value="{{ equipo.subrepresentante }}" required autofocus>
-            <input type="text" id="correo" class="form-control" name="correo" placeholder="Correo" value="{{ equipo.correo }}" required autofocus>
+    <div class="col-lg-7 container mr-2 ml-2 border border-secondary" style="right: auto;left: 300px;top: auto;bottom: 700px; text-align: center; " id="formularioeditequipo">
+        <form class="m-3" style="width: auto; align-items: center;" action="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo.id) }}" method="post">
+            <h1 class="h3 mb-3 font-weight-normal" style="font-weight: bold; color: #000;"><strong>Actualizar datos del equipo</strong></h1>
+                <label for="nombre_equipo" >Nombre equipo<input type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo" value="{{ equipo.nombre_equipo }}" required autofocus></label>
+                <label for="representante" style="padding-top: 10px;">Representante<input  type="text" id="representante" class="form-control" name="representante" placeholder="Representante" value="{{ equipo.representante }}" required autofocus>
+                    <label for="subrepresentante" style="padding-top: 10px;">Sub Representante<input type="text" id="subrepresentante" class="form-control" name="subrepresentante" placeholder="Sub Representante" value="{{ equipo.subrepresentante }}" required autofocus>
+                        <label for="correo" style="padding-top: 10px;">Correo<input type="text" id="correo" class="form-control" name="correo" placeholder="Correo" value="{{ equipo.correo }}" required autofocus>
 
-            <!-- Si deseas mostrar los horarios en el mismo formulario, podrías iterar sobre ellos -->
-            {% for horario in equipo.horarios %}
-                <input type="text" id="dia" class="form-control" name="dia" placeholder="Dia" value="{{ horario.dia }}" autofocus>
-                <input type="text" id="hora_inicio" class="form-control" name="hora_inicio" placeholder="Hora_inicio" value="{{ horario.hora_inicio }}" autofocus>
-                <input type="text" id="hora_fin" class="form-control" name="hora_fin" placeholder="Hora_fin" value="{{ horario.hora_fin }}" autofocus>
-            {% endfor %}
-
-            <br>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Update task</button>
-        </div>
-    </form>
+                <!-- Si deseas mostrar los horarios en el mismo formulario, podrías iterar sobre ellos -->
+                {% for horario in equipo.horarios %}
+                <label for="dia" style="padding-top: 10px;">Dia<input type="text" id="dia" class="form-control" name="dia" placeholder="Dia" value="{{ horario.dia }}" autofocus></label>
+                <label for="hora_inicio" style="padding-top: 10px;">Hora inicio equipo<input type="text" id="hora_inicio" class="form-control" name="hora_inicio" placeholder="Hora_inicio" value="{{ horario.hora_inicio }}" autofocus></label>
+                <label for="hora_fin" style="padding-top: 10px;">Hora fin equipo<input type="text" id="hora_fin" class="form-control" name="hora_fin" placeholder="Hora_fin" value="{{ horario.hora_fin }}" autofocus></label>
+                {% endfor %}
+                <br>
+                <br>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Update task</button>
+        </form>
+    </div>
     <br>
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}

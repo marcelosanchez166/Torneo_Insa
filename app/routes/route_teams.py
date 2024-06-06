@@ -145,8 +145,7 @@ def edit_equipo(id):
 
     connection = get_connection()
     with connection.cursor() as cursor:
-        cursor.execute("""
-            SELECT 
+        cursor.execute("""SELECT 
                 equipos.id, 
                 equipos.nombre_equipo, 
                 equipos.representante, 
@@ -154,27 +153,39 @@ def edit_equipo(id):
                 equipos.correo, 
                 horarios.dia, 
                 horarios.hora_inicio, 
-                horarios.hora_fin 
-            FROM 
-                equipos 
-            JOIN 
-                horarios 
-            ON 
-                equipos.id = horarios.id_equipo 
-            WHERE 
-                equipos.id = %s
-        """, (id,))
+                horarios.hora_fin  
+                FROM equipos JOIN horarios ON equipos.id = horarios.id_equipo WHERE equipos.id = %s """, (id,))
         data2 = cursor.fetchall()
 
-    # Combinamos los resultados en una estructura más adecuada
+    # Construir la lista de horarios
+    horarios = []
+    for row in data2:
+        horario = {
+            'dia': row[5],
+            'hora_inicio': row[6],
+            'hora_fin': row[7]
+        }
+        horarios.append(horario)
+
+    # Crear el diccionario del equipo
     equipo = {
         'id': data2[0][0],
         'nombre_equipo': data2[0][1],
         'representante': data2[0][2],
         'subrepresentante': data2[0][3],
         'correo': data2[0][4],
-        'horarios': [{'dia': row[5], 'hora_inicio': row[6], 'hora_fin': row[7]} for row in data2]
+        'horarios': horarios
     }
+
+    # Combinamos los resultados en una estructura más adecuada
+    # equipo = {
+    #     'id': data2[0][0],
+    #     'nombre_equipo': data2[0][1],
+    #     'representante': data2[0][2],
+    #     'subrepresentante': data2[0][3],
+    #     'correo': data2[0][4],
+    #     'horarios': [{'dia': row[5], 'hora_inicio': row[6], 'hora_fin': row[7]} for row in data2]
+    # }
 
     return render_template("edit_equipos.html", equipo=equipo)
 
