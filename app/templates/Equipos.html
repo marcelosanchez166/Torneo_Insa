@@ -16,7 +16,6 @@ Equipos
         <link href="{{url_for('static', filename='css/equipos.css')}}" rel="stylesheet">
     {% endblock %}
 
-
     <div class="col-lg-7 container mr-2 ml-2 border border-secondary"
         style="right: auto;left: 300px;top: auto;bottom: 700px; text-align: center; " id="formularioEquipo">
         <h1 style="text-align: center; margin-top: 10px; "><strong>Agregar Equipos</strong></h1>
@@ -88,7 +87,6 @@ Equipos
                                 </select>
                             </td>
                         </tr>
-
                         <!-- Repite estos bloques para cada día -->
                         <tr>
                             <td>
@@ -125,7 +123,6 @@ Equipos
                                 </select>
                             </td>
                         </tr>
-            
                         <!-- Repite estos bloques para cada día -->
                         <tr>
                             <td>
@@ -162,7 +159,6 @@ Equipos
                                 </select>
                             </td>
                         </tr>
-            
                         <!-- Repite estos bloques para cada día -->
                         <tr>
                             <td>
@@ -199,7 +195,6 @@ Equipos
                                 </select>
                             </td>
                         </tr>
-
                         <!-- Repite estos bloques para cada día -->
                         <tr>
                             <td>
@@ -269,11 +264,10 @@ Equipos
         {% endwith %}
         <br>
 
-        
         <!-- Tabla de equipos -->
         <div class="table-responsive"> 
-            <table  style="position: absolute;right: 10px;top: 0px;left: 725px;"" class="table showteams">
-                <tr style="font-size: smaller; color: antiquewhite; border: 1px solid #ddd;">
+            <table  style="position: absolute;right: 10px;top: 0px;left: 725px;"" class="table-dark   table-bordered table showteams">
+                <tr class="col-md-6 mx-auto text-center" style="font-size: smaller; color: antiquewhite; border: 1px solid #ddd;">
                     <th>id</th>
                     <th>Nombre del equipo</th>
                     <th>Representante</th>
@@ -281,18 +275,18 @@ Equipos
                     <th>Correo</th>
                     <th>grupo</th>
                 </tr>
-        
+
                 {% for equipo in data %}
-                <tr style="color: antiquewhite; font-weight: bold; font-size: smaller; column-width: auto; border: 1px solid #ddd; padding: 8px;">
+                <tr class="col-md-6 mx-auto text-center" style="color: antiquewhite; font-weight: bold; font-size: smaller; column-width: auto; border: 1px solid #ddd; padding: 8px;">
                     <td>{{ equipo[0] }}</td>
                     <td>{{ equipo[1] }}</td>
                     <td>{{ equipo[2] }}</td>
                     <td>{{ equipo[3] }}</td>
                     <td>{{ equipo[4] }}</td>
-                    <td>
-                        <div class="col-md-6 mx-auto">
-                            <a class="btn btn-info btn-block text-white" href="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo[0]) }}" >Editar equipo</a>
-                            <a class="btn btn-danger btn-block text-white" href="{{ url_for('EquiposBlueprint.delete_equipo', id=equipo[0]) }}">Eliminar equipo</a>
+                    <td >
+                        <div class="col-md-6 mx-auto" style="padding-right: 50px;" >
+                            <a type="button" class="btn btn-primary" href="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo[0]) }}" >Editar</a>
+                            <a type="button" class="btn btn-danger" href="{{ url_for('EquiposBlueprint.delete_equipo', id=equipo[0]) }}">Eliminar</a>
                         </div>
                     </td>
                 </tr>
@@ -300,6 +294,5 @@ Equipos
             </table>
         </div>
     </div>
-
 
 {% endblock %}

@@ -34,7 +34,7 @@ def equipos():
                 if  inicio < fin:
                     horas_por_dia[dia] = {'inicio': inicio, 'fin': fin}
                 else:
-                    flash('La hora final debe ser distinta a la inicial', 'error')
+                    flash('La hora final debe ser distinta a la inicial', 'warning')
                     return redirect(url_for( "EquiposBlueprint.equipos" ))
                 print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
 
@@ -47,7 +47,7 @@ def equipos():
                 if  inicio < fin:
                     horas_por_dia[dia] = {'inicio': inicio, 'fin': fin}
                 else:
-                    flash('La hora final debe ser distinta a la inicial', 'error')
+                    flash('La hora final debe ser distinta a la inicial', 'warning')
                     return redirect(url_for( "EquiposBlueprint.equipos" ))
                 print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
 
@@ -60,7 +60,7 @@ def equipos():
                 if  inicio < fin:
                     horas_por_dia[dia] = {'inicio': inicio, 'fin': fin}
                 else:
-                    flash('La hora final debe ser distinta a la inicial', 'error')
+                    flash('La hora final debe ser distinta a la inicial', 'warning')
                     return redirect(url_for( "EquiposBlueprint.equipos" ))
                 print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
 
@@ -73,7 +73,7 @@ def equipos():
                 if  inicio < fin:
                     horas_por_dia[dia] = {'inicio': inicio, 'fin': fin}
                 else:
-                    flash('La hora final debe ser distinta a la inicial', 'error')
+                    flash('La hora final debe ser distinta a la inicial', 'warning')
                     return redirect(url_for( "EquiposBlueprint.equipos" ))
                 print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
 
@@ -86,7 +86,7 @@ def equipos():
                 if  inicio < fin:
                     horas_por_dia[dia] = {'inicio': inicio, 'fin': fin}
                 else:
-                    flash('La hora final debe ser distinta a la inicial', 'error')
+                    flash('La hora final debe ser distinta a la inicial', 'warning')
                     return redirect(url_for( "EquiposBlueprint.equipos" ))
                 print("Imprimiendo el dia y las horas virnesssss ",dia,horas_por_dia[dia])
 
@@ -102,7 +102,7 @@ def equipos():
                     #     flash('Error in the registration process ', 'warning')
                     #     return redirect(url_for('EquiposBlueprint.equipos'))
                 else:
-                    flash('Debes completar todos los capos del formulario', 'error')
+                    flash('Debes completar todos los capos del formulario', 'warning')
                     return redirect(url_for('EquiposBlueprint.equipos'))
         connection= get_connection()
         with connection.cursor() as cursor:
