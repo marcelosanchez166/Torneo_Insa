@@ -4,9 +4,9 @@
 {% extends './body.html' %}
 
 <!-- modificando el bloque title el cual tendra de titulo index -->
-{% block title %} 
-    Horarios 
-{% endblock %} 
+{% block title %}
+Equipos
+{% endblock %}
 
 
 {% block CustomCSS %}
@@ -16,7 +16,7 @@
 <!-- creamos el block del body que hereda desde base.html con su cierre -->
 {% block container %}
     <div class="col-lg-7 container mr-2 ml-2 border border-secondary" style="right: auto;left: 600px;top: auto;bottom: 720px;text-align: center;" id="formularioeditequipo">
-        <form class="m-3" style="width: auto; align-items: center;" action="{{ url_for('horariosBlueprint.edit_horarios', id=horarios.id) }}" method="post">
+        <form class="m-3" style="width: auto; align-items: center;" action="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo.id) }}" method="post">
             <h1 class="h3 mb-3 font-weight-normal" style="font-weight: bold; color: #000;"><strong>Actualizar datos del equipo</strong></h1>
                 <label for="nombre_equipo" >Nombre equipo<input style="margin-right: 50px;" type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo" value="{{ equipo.nombre_equipo }}" required autofocus></label>
                 <label for="representante" style="padding-top: 10px;">Representante<input style="margin-right: 50px;" type="text" id="representante" class="form-control" name="representante" placeholder="Representante" value="{{ equipo.representante }}" required autofocus></label>
@@ -49,7 +49,7 @@
                         <!-- Espaciado entre el botón y el enlace -->
                         <div style="margin-left: 20px;"></div>
                         <!-- Enlace para cancelar -->
-                        <a class="btn btn-secondary btn-lg btn-custom" href="{{ url_for('horariosBlueprint.horarios') }}" role="button">Cancelar</a>
+                        <a class="btn btn-secondary btn-lg btn-custom" href="{{ url_for('EquiposBlueprint.equipos') }}" role="button">Cancelar</a>
                     </div>
                 </div>
         </form>
