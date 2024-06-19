@@ -13,16 +13,13 @@ class ModeloEquipos:
                 cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo FROM equipos WHERE nombre_equipo = %s OR correo = %s", (Add_Equipos.nombre_equipo, Add_Equipos.correo,))
                 data = cursor.fetchone()
                 print(data)
-
                 if data is None:  # si no hay registros en la tabla devuelve None
                     sql = """INSERT INTO equipos (nombre_equipo, representante, subrepresentante, correo) VALUES (%s, %s, %s, %s)"""
                     cursor.execute(sql, (Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante, Add_Equipos.correo))
                     connection.commit()
-
                     # Obtener el ID del equipo recién insertado
                     cursor.execute("SELECT id FROM equipos WHERE nombre_equipo = %s", (Add_Equipos.nombre_equipo,))
                     data3 = cursor.fetchone()
-
                     if data3:
                         team_id = data3[0]
                         add_horarios = Modelo_horarios.agregar_horarios(horas_por_dia, team_id)
