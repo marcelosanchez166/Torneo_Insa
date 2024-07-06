@@ -34,9 +34,35 @@ Equipos
                         </tr>
                         {% for horario in equipo.horarios %}
                         <tr style="color: antiquewhite; font-weight: bold; font-size: smaller; column-width: auto; border: 1px solid #ddd; padding: 8px;">
-                            <td><input type="text" id="dia" class="form-control" name="dia" placeholder="Dia" value="{{ horario.dia }}" autofocus></td>
-                            <td><input type="text" id="hora_inicio" class="form-control" name="hora_inicio" placeholder="Hora_inicio" value="{{ horario.hora_inicio }}" autofocus></td>
-                            <td><input type="text" id="hora_fin" class="form-control" name="hora_fin" placeholder="Hora_fin" value="{{ horario.hora_fin }}" autofocus></td>
+                            <td>
+                                {% set dia = horario.dia %}
+                                <label for="dia">{{ horario.dia }}:</label>
+                                <input type="checkbox" name="dia " value="{{ horario.dia }}" id="{{ horario.dia }}" />
+                            </td>
+                            <td>
+                                <select class="custom-select col-md-6 text-center" id="{{ horario.dia }}" name="{{ horario.hora_inicio }}">
+                                    {% set hora_actual = horario.hora_inicio %}
+                                    {% for hora in range(8, 19) %}
+                                        {% if hora == hora_actual %}
+                                            <option value="{{ hora }}" selected>{{ hora }}</option>
+                                        {% else %}
+                                            <option value="{{ hora }}">{{ hora }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="custom-select col-md-6 text-center" id="{{ horario.dia }}" name="{{ horario.hora_fin }}">
+                                    {% set hora_actual = horario.hora_fin %}
+                                    {% for hora in range(8, 19) %}
+                                        {% if hora == hora_actual %}
+                                            <option value="{{ hora }}" selected>{{ hora }}</option>
+                                        {% else %}
+                                            <option value="{{ hora }}">{{ hora }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
                         </tr>
                         {% endfor %}
                     </table>

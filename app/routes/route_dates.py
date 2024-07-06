@@ -19,9 +19,17 @@ def horarios():
         connection= get_connection()
         with connection.cursor() as cursor:
             cursor.execute("SELECT id, id_equipo, dia, hora_inicio, hora_fin  FROM horarios ")
-            data = cursor.fetchone()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
-            id_equipo = data[1]
+            data = cursor.fetchall()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
+            #print("ID del equipo obtenido",id_equipo)
+            if data:
+                id_equipo1 = data[0][1]
+                print("ID del equipo obtenido", id_equipo1)
+            else:
+                id_equipo1 = None
+                print("No se encontraron horarios")
+
             if request.method == "POST":
+                id_equipo = request.form.getlist( 'id_equipo' )
                 dia_lunes = request.form.getlist( 'dias[lunes]' )
                 for dia in dia_lunes:
                     inicio =int(request.form['horas[{}][inicio]'.format(dia)])
@@ -33,7 +41,6 @@ def horarios():
                         flash('La hora final debe ser distinta a la inicial', 'warning')
                         return redirect(url_for( "EquiposBlueprint.equipos" ))
                     print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
-
 
                 dia_martes = request.form.getlist( 'dias[martes]' )
                 for dia in dia_martes:
@@ -47,7 +54,6 @@ def horarios():
                         return redirect(url_for( "EquiposBlueprint.equipos" ))
                     print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
 
-
                 dia_miercoles = request.form.getlist('dias[miercoles]')
                 for dia in dia_miercoles:
                     inicio =int(request.form['horas[{}][inicio]'.format(dia)])
@@ -60,7 +66,6 @@ def horarios():
                         return redirect(url_for( "EquiposBlueprint.equipos" ))
                     print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
 
-
                 dia_jueves= request.form.getlist('dias[jueves]')
                 for dia in dia_jueves:
                     inicio =int(request.form['horas[{}][inicio]'.format(dia)])
@@ -72,7 +77,6 @@ def horarios():
                         flash('La hora final debe ser distinta a la inicial', 'warning')
                         return redirect(url_for( "EquiposBlueprint.equipos" ))
                     print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
-
 
                 dia_viernes = request.form.getlist('dias[viernes]')
                 for dia in dia_viernes:
@@ -91,14 +95,14 @@ def horarios():
                 if len(horas_por_dia) >0:
                     if horariosmodel:
                         flash("Horario agregado correctamente")
-            else:
-                """Redirección a la página principal con un mensaje de error"""
-                return render_template('horarios.html')
-        connection = get_connection()
+                else:
+                    """Redirección a la página principal con un mensaje de error"""
+                    return render_template('horarios.html')
         with connection.cursor() as cursor:
-            cursor.execute("SELECT id, id_equipo, dia, hora_inicio, hora_fin  FROM horarios ")
-            data1 = cursor.fetchall()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
-            return render_template("horarios.html", data1=data1)
+            cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos ")
+            equipos = cursor.fetchall()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
+            #print(type(equipos, "Lista de equipos"))  # Esto imprimirá los equipos en la consola
+            return render_template("horarios.html", data=data, equipos=equipos)
     else:
         flash('You must be logged in to access this page', 'warning')
         return redirect(url_for('AuthLogin.login'))  # Redirecciona a la página de inicio de sesión
