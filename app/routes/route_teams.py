@@ -118,87 +118,44 @@ def equipos():
 @login_required
 @EquiposBlueprint.route("/edit_equipo/<int:id>", methods=["POST", "GET"])
 def edit_equipo(id):
-    horas_por_dia = {}
     connection = get_connection()
     with connection.cursor() as cursor:
         cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE id= %s", (id,))
         data = cursor.fetchone()
+    
     if request.method == "POST":
         if data is not None:
             nombre_equipo = request.form['nombre_equipo']
             representante = request.form['representante']
             subrepresentante = request.form['subrepresentante']
             correo = request.form["correo"]
-            dia_lunes = request.form.getlist( 'dias[lunes]' )
-            for dia in dia_lunes:
-                inicio =int(request.form['horas[{}][inicio]'.format(dia)])
-                # print(type(inicio), "miercoles")
-                fin =  int(request.form['horas[{}][fin]'.format(dia) ])
-                if  inicio < fin:
-                    horas_por_dia[dia] = {'inicio': inicio, 'fin': fin}
-                else:
-                    flash('La hora final debe ser distinta a la inicial', 'warning')
-                    return redirect(url_for( "EquiposBlueprint.equipos" ))
-                print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
-
-            dia_martes = request.form.getlist( 'dias[martes]' )
-            for dia in dia_martes:
-                inicio =int(request.form['horas[{}][inicio]'.format(dia)])
-                # print(type(inicio), "miercoles")
-                fin =  int(request.form['horas[{}][fin]'.format(dia) ])
-                if  inicio < fin:
-                    horas_por_dia[dia] = {'inicio': inicio, 'fin': fin}
-                else:
-                    flash('La hora final debe ser distinta a la inicial', 'warning')
-                    return redirect(url_for( "EquiposBlueprint.equipos" ))
-                print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
-
-            dia_miercoles = request.form.getlist('dias[miercoles]')
-            for dia in dia_miercoles:
-                inicio =int(request.form['horas[{}][inicio]'.format(dia)])
-                # print(type(inicio), "miercoles")
-                fin =  int(request.form['horas[{}][fin]'.format(dia) ])
-                if  inicio < fin:
-                    horas_por_dia[dia] = {'inicio': inicio, 'fin': fin}
-                else:
-                    flash('La hora final debe ser distinta a la inicial', 'warning')
-                    return redirect(url_for( "EquiposBlueprint.equipos" ))
-                print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
-
-            dia_jueves= request.form.getlist('dias[jueves]')
-            for dia in dia_jueves:
-                inicio =int(request.form['horas[{}][inicio]'.format(dia)])
-                # print(type(inicio), "miercoles")
-                fin =  int(request.form['horas[{}][fin]'.format(dia) ])
-                if  inicio < fin:
-                    horas_por_dia[dia] = {'inicio': inicio, 'fin': fin}
-                else:
-                    flash('La hora final debe ser distinta a la inicial', 'warning')
-                    return redirect(url_for( "EquiposBlueprint.equipos" ))
-                print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
-
-            dia_viernes = request.form.getlist('dias[viernes]')
-            for dia in dia_viernes:
-                inicio =int(request.form['horas[{}][inicio]'.format(dia)])
-                # print(type(inicio), "miercoles")
-                fin =  int(request.form['horas[{}][fin]'.format(dia) ])
-                if  inicio < fin:
-                    horas_por_dia[dia] = {'inicio': inicio, 'fin': fin}
-                else:
-                    flash('La hora final debe ser distinta a la inicial', 'warning')
-                    return redirect(url_for( "EquiposBlueprint.equipos" ))
-                print("Imprimiendo el dia y las horas virnesssss ",dia,horas_por_dia[dia])
-            print(horas_por_dia, "diccionario de los dias y horas ")
+            
+            # Procesar los horarios
+            horas_por_dia = []
+            for key, value in request.form.items():
+                if "_hora_inicio" in key:
+                    dia = key.split("_")[0]
+                    hora_inicio = value
+                    hora_fin = request.form.get(f"{dia}_hora_fin")
+                    if hora_inicio and hora_fin:
+                        horas_por_dia.append({
+                            'dia': dia,
+                            'hora_inicio': hora_inicio,
+                            'hora_fin': hora_fin
+                        })
+            
+            print(horas_por_dia, "Horarios procesados")
+            
             update = Equipos(id, nombre_equipo, representante, subrepresentante, correo, None)
             try:
-                if update_equipos is not None:
-                    if len(horas_por_dia) >0:
-                        update_equipos = ModeloEquipos.update_equipos(update, horas_por_dia) 
+                if update:
+                    if len(horas_por_dia) > 0:
+                        update_equipos = ModeloEquipos.update_equipos(update, horas_por_dia)
                         flash("Equipo actualizado correctamente", "success")
                         return redirect(url_for("EquiposBlueprint.equipos"))
                     else:
-                        flash('Debes completar todos los capos del formulario', 'warning')
-                        return redirect(url_for('EquiposBlueprint.edit_equipo'))
+                        flash('Debes completar todos los campos del formulario', 'warning')
+                        return redirect(url_for('EquiposBlueprint.edit_equipo', id=id))
                 else:
                     flash("Error actualizando el equipo", "warning")
             except Exception as ex:
@@ -206,7 +163,7 @@ def edit_equipo(id):
                 print("Error al actualizar los datos del equipo", ex)
         else:
             return render_template("edit_equipos.html")
-    connection = get_connection()
+    
     with connection.cursor() as cursor:
         cursor.execute("""SELECT 
                 equipos.id, 
@@ -230,7 +187,6 @@ def edit_equipo(id):
         }
         horarios.append(horario)
 
-    # Crear el diccionario del equipo
     equipo = {
         'id': data2[0][0],
         'nombre_equipo': data2[0][1],
@@ -240,17 +196,9 @@ def edit_equipo(id):
         'horarios': horarios
     }
 
-    # Combinamos los resultados en una estructura más adecuada
-    # equipo = {
-    #     'id': data2[0][0],
-    #     'nombre_equipo': data2[0][1],
-    #     'representante': data2[0][2],
-    #     'subrepresentante': data2[0][3],
-    #     'correo': data2[0][4],
-    #     'horarios': [{'dia': row[5], 'hora_inicio': row[6], 'hora_fin': row[7]} for row in data2]
-    # }
-
     return render_template("edit_equipos.html", equipo=equipo)
+
+
 
 
 

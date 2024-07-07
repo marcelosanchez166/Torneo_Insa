@@ -42,6 +42,7 @@ class ModeloEquipos:
         connection = get_connection()
         try:
             print(update.representante, update.id,"Este es el nuevo estado que se le dara si se le da click al boton done")
+            print(horas_por_dia, "Dede el metodo update equipos")
             '''Marcar como realizada'''
             with connection.cursor() as cursor:
                 cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE id = %s ", (update.id,))
@@ -59,6 +60,7 @@ class ModeloEquipos:
                             team_id = data[0]
                             print(team_id)
                             add_horarios = Modelo_horarios.agregar_horarios(horas_por_dia, team_id)
+                            print(add_horarios)
                             return True
                         else:
                             flash("Error retrieving the newly inserted team's ID", "warning")
