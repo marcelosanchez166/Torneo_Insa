@@ -52,10 +52,13 @@ class ModeloEquipos:
             if data is not None:
                     with connection.cursor() as cursor:
                         #UPDATE `equipos` SET `nombre_equipo` = 'Barcelona ', `representante` = 'Marcelo Sanchez', `subrepresentante` = 'Gloria Vasquez', `correo` = 'marcelosanchez1506@gmail.com' WHERE `equipos`.`id` = 93;
-                        cursor.execute("UPDATE equipos   SET equipos.nombre_equipo = %s, equipos.representante = %s, equipos.subrepresentante =  %s, equipos.correo = %s WHERE equipos.id = %s ", (update.nombre_equipo, update.representante, update.subrepresentante, update.correo, data[0],))
+                        cursor.execute("UPDATE `equipos` SET `nombre_equipo` = %s, `representante` = %s, `subrepresentante` = %s, `correo` = %s WHERE `equipos`.`id` = %s ", (update.nombre_equipo, update.representante, update.subrepresentante, update.correo, data[0],))
                         Updated = cursor.fetchone()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
                         #fectchone es para verificar si almenos una linea completa de la tabla coincide y fetchall busca coincidencias en todas las lineas de la tabla
                         # Obtener el ID del equipo recién insertado
+                        connection.commit()
+                        updating_team = Equipos(id = update.id , nombre_equipo=update.nombre_equipo, representante=update.representante, subrepresentante=update.subrepresentante, correo=update.correo, grupo_id=update.grupo_id)
+                        print(updating_team, "Imprimiendo lo que se le envia a la clase Usuario desde cuando se le envian las cosas despues de hacer el update del equipo")
                         if data:
                             team_id = data[0]
                             print(team_id)
