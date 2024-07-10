@@ -6,6 +6,7 @@ from app.models.modelo_horarios import Modelo_horarios
 class ModeloEquipos:
     @classmethod
     def add_teams(self, horas_por_dia, Add_Equipos):
+        print(type(horas_por_dia), "Desde addteams")
         print("Desde metodo addteams de ModeloEquipos", Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante, Add_Equipos.correo)
         connection = get_connection()
         try:
@@ -62,7 +63,7 @@ class ModeloEquipos:
                         if data:
                             team_id = data[0]
                             print(team_id)
-                            add_horarios = Modelo_horarios.agregar_horarios(horas_por_dia, team_id)
+                            add_horarios = Modelo_horarios.actualizar_horarios(horas_por_dia, team_id)
                             print(add_horarios)
                             return True
                         else:
