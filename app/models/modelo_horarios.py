@@ -39,10 +39,10 @@ class Modelo_horarios:
         try:
             with connection.cursor() as cursor:
                 for horario in horas_por_dia:
-                    sql = """UPDATE `horarios` SET (`dia`, `hora_inicio`, `hora_fin`)  WHERE `id_equipo` =  %s" , VALUES (%s, %s, %s)"""
-                    cursor.execute(sql, (horario['dia'], horario['inicio'], horario['fin'], team_id))
+                    sql = """UPDATE `horarios` SET `dia` = %s, `hora_inicio` = %s, `hora_fin` = %s WHERE `id_equipo` = %s"""
+                    cursor.execute(sql, (horario['dia'], horario['hora_inicio'], horario['hora_fin'], team_id))
                     print(horario['dia'], horario, "Valores recorridos desde el for desde la clase Modelo_horarios")
-                    connection.commit()
+                connection.commit()
             return True
         except Exception as ex:
             print(f"Error durante la actualizacion de los horarios metodo actualizar horarios a la tabla horarios: {ex}")
