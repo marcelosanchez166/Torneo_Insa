@@ -144,7 +144,7 @@ def edit_equipo(id):
                             'hora_fin': hora_fin
                         })
             
-            print(horas_por_dia, "Horarios procesados")
+            #print(horas_por_dia, "Horarios procesados")
             
             update = Equipos(id, nombre_equipo, representante, subrepresentante, correo, None)
             try:

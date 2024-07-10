@@ -42,14 +42,14 @@ class ModeloEquipos:
     def update_equipos(self, update, horas_por_dia):
         connection = get_connection()
         try:
-            print(update.representante, update.id,"Este es el nuevo estado que se le dara si se le da click al boton done")
-            print(horas_por_dia, "Dede el metodo update equipos")
+            #print(update.representante, update.id,"Este es el nuevo estado que se le dara si se le da click al boton done")
+            #print(horas_por_dia, "Dede el metodo update equipos")
             '''Marcar como realizada'''
             with connection.cursor() as cursor:
                 cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos WHERE id = %s ", (update.id,))
                 data = cursor.fetchone()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
                 #fectchone es para verificar si almenos una linea completa de la tabla coincide y fetchall busca coincidencias en todas las lineas de la tabla
-            print(data, "Imprimiendo la variable result ")
+            #print(data, "Imprimiendo la variable result ")
             if data is not None:
                     with connection.cursor() as cursor:
                         #UPDATE `equipos` SET `nombre_equipo` = 'Barcelona ', `representante` = 'Marcelo Sanchez', `subrepresentante` = 'Gloria Vasquez', `correo` = 'marcelosanchez1506@gmail.com' WHERE `equipos`.`id` = 93;
@@ -59,7 +59,7 @@ class ModeloEquipos:
                         # Obtener el ID del equipo recién insertado
                         connection.commit()
                         updating_team = Equipos(id = update.id , nombre_equipo=update.nombre_equipo, representante=update.representante, subrepresentante=update.subrepresentante, correo=update.correo, grupo_id=update.grupo_id)
-                        print(updating_team, "Imprimiendo lo que se le envia a la clase Usuario desde cuando se le envian las cosas despues de hacer el update del equipo")
+                        #print(updating_team, "Imprimiendo lo que se le envia a la clase Usuario desde cuando se le envian las cosas despues de hacer el update del equipo")
                         if data:
                             team_id = data[0]
                             print(team_id)
