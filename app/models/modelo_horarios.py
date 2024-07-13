@@ -6,7 +6,7 @@ from app.database.db import get_connection
 
 class Modelo_horarios:
     @classmethod
-    def agregar_horarios(cls, horas_por_dia, team_id):
+    def agregar_horarios(self, horas_por_dia, team_id):
         print(horas_por_dia, team_id, "Horarios desde el metodo agregar horarios clase Modelo horarios")
         connection = get_connection()
         try:
@@ -33,18 +33,42 @@ class Modelo_horarios:
 
     @classmethod
     def actualizar_horarios(cls, horas_por_dia, team_id):
-        print(type)
-        print(horas_por_dia, team_id, "Horarios desde el metodo Actualizar horarios clase Modelo horarios")
+        print(len(horas_por_dia), team_id, "Horarios desde el metodo Actualizar horarios clase Modelo horarios y el tamano de horas_por_dia")
         connection = get_connection()
         try:
+            # Primero obtenemos los IDs de los horarios correspondientes al equipo
             with connection.cursor() as cursor:
-                for horario in horas_por_dia:
-                    sql = """UPDATE `horarios` SET `dia` = %s, `hora_inicio` = %s, `hora_fin` = %s WHERE `id_equipo` = %s"""
-                    cursor.execute(sql, (horario['dia'], horario['hora_inicio'], horario['hora_fin'], team_id))
-                    print(horario['dia'], horario, "Valores recorridos desde el for desde la clase Modelo_horarios")
-                    connection.commit()
+                cursor.execute("SELECT id FROM horarios WHERE id_equipo = %s", (team_id,))
+                horarios_ids = cursor.fetchall()  # Use fetchall para obtener todas las filas que coincidan, esto devuelve una lista de tuplas, 
+                #y el fetchone devuelve la primera linea que coincida osea un tupla nada mas
+            
+            print(type(horarios_ids), horarios_ids, "Imprimiendo el tipo de horarios_ids cuando hago el select y lo obtengo con el fetchall() ")
+            # Asegurarse de que se han obtenido los IDs
+            if not horarios_ids:
+                print("No se encontraron horarios para el equipo proporcionado.")
+                return None
+
+            # Convertir la lista de tuplas en una lista de IDs de manera más explícita
+            id_list = []
+            for id_tuple in horarios_ids:
+                id_list.append(id_tuple[0])
+                print(id_list, "Lista de IDs de horarios desde la clase Modelo_horarios")
+
+            # Verificamos si el número de horarios obtenidos coincide con el número de horarios proporcionados
+            if len(id_list) != len(horas_por_dia):
+                print("El número de horarios obtenidos no coincide con el número de horarios proporcionados.")
+                return None
+
+            # Actualizamos cada horario usando su id
+            with connection.cursor() as cursor:
+                for idx, horario in enumerate(horas_por_dia):
+                    sql = """UPDATE horarios SET dia = %s, hora_inicio = %s, hora_fin = %s WHERE id = %s AND id_equipo = %s"""
+                    cursor.execute(sql, (horario['dia'], horario['hora_inicio'], horario['hora_fin'], id_list[idx], team_id))
+                    print(horario['dia'], horario, id_list[idx], "Valores recorridos desde el for desde la clase Modelo_horarios")
+                connection.commit()
             return True
         except Exception as ex:
-            print(f"Error durante la actualizacion de los horarios metodo actualizar horarios a la tabla horarios: {ex}")
+            print(f"Error durante la actualización de los horarios método actualizar horarios a la tabla horarios: {ex}")
             flash('Error adding schedules to the database', 'warning')
             return None
+
