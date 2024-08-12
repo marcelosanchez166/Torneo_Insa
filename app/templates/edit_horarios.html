@@ -1,0 +1,90 @@
+<!-- esta sera la plantilla que va a renderizar la vista index desde el archivo __init__.py  -->
+
+<!-- Para comenzar debemos hacer un extends de body.html -->
+{% extends './body.html' %}
+
+<!-- modificando el bloque title el cual tendra de titulo index -->
+{% block title %}
+Equipos
+{% endblock %}
+
+
+{% block CustomCSS %}
+
+{% endblock %}
+
+<!-- creamos el block del body que hereda desde base.html con su cierre -->
+{% block container %}
+
+<div class="container mt-5 pt-3 bg-secondary ">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12  mr-2 ml-2 border border-secondary" id="formularioeditequipo">
+            <form class="m-3" action="{{ url_for('horariosBlueprint.edit_horarios', id=horario.id) }}" method="post">
+                <h1 class="fs-1 mb-3 text-center"><strong>Actualizar horarios del equipo</strong></h1>
+                <hr>
+                <div class="align-items-center">
+                    <div class="table-responsive pt-3">
+                        <table class="table-bordered border border-light table showteams table-dark table-striped  table-hover  text-center ">
+                            <tr class="mx-auto">
+                                <th>Dia</th>
+                                <th>Hora inicio equipo</th>
+                                <th>Hora fin equipo</th>
+                            </tr>
+                            {% for horario in horario.horarios %}
+                            <tr class="mx-auto">
+                                <td>
+                                    <label for="dia">{{ horario.dia }}</label>
+                                    <input type="checkbox" name="dia" value="{{ horario.dia }}" id="{{ horario.dia }}" checked />
+                                </td>
+                                <td>
+                                    <select class="custom-select col-md-6 text-center" id="{{ horario.dia }}_inicio" name="{{ horario.dia }}_hora_inicio">
+                                        {% set hora_actual = horario.hora_inicio %}
+                                        {% for hora in range(8, 19) %}
+                                            <option value="{{ hora }}" {% if hora == hora_actual %}selected{% endif %}>{{ hora }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="custom-select col-md-6 text-center" id="{{ horario.dia }}_fin" name="{{ horario.dia }}_hora_fin">
+                                        {% set hora_actual = horario.hora_fin %}
+                                        {% for hora in range(8, 19) %}
+                                            <option value="{{ hora }}" {% if hora == hora_actual %}selected{% endif %}>{{ hora }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="container text-center">
+                            <button class="btn btn-primary btn-lg btn-custom" type="submit">Actualizar equipo</button>
+                            <a class="btn btn-light btn-lg btn-custom" href="{{ url_for('horariosBlueprint.horarios') }}" role="button">Volver a Horarios</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'warning' %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong style="font-size: 14px;">{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong style="font-size: 14px;">{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+</div>
+{% endblock %}

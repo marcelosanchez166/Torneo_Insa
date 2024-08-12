@@ -15,66 +15,74 @@ Equipos
 
 <!-- creamos el block del body que hereda desde base.html con su cierre -->
 {% block container %}
-    <div class="col-lg-7 container mr-2 ml-2 border border-secondary" style="right: auto;left: 600px;top: auto;bottom: 720px;text-align: center;" id="formularioeditequipo">
-        <form class="m-3" style="width: auto; align-items: center;" action="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo.id) }}" method="post">
-            <h1 class="h3 mb-3 font-weight-normal" style="font-weight: bold; color: #000;"><strong>Actualizar datos del equipo</strong></h1>
-                <label for="nombre_equipo" >Nombre equipo<input style="margin-right: 50px;" type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo" value="{{ equipo.nombre_equipo }}" required autofocus></label>
-                <label for="representante" style="padding-top: 10px;">Representante<input style="margin-right: 50px;" type="text" id="representante" class="form-control" name="representante" placeholder="Representante" value="{{ equipo.representante }}" required autofocus></label>
-                <label for="subrepresentante" style="padding-top: 10px;">Sub Representante<input style="margin-right: 50px;" type="text" id="subrepresentante" class="form-control" name="subrepresentante" placeholder="Sub Representante" value="{{ equipo.subrepresentante }}" required autofocus></label>
-                <label for="correo" style="padding-top: 10px;">Correo<input style="margin-right: 50px;" type="text" id="correo" class="form-control" name="correo" placeholder="Correo" value="{{ equipo.correo }}" required autofocus></label>
-
-                <!-- Si deseas mostrar los horarios en el mismo formulario, podrías iterar sobre ellos -->
-                        <!-- Tabla de equipos -->
-                <div class="table-responsive"> 
-                    <table class="table table-bordered" style="right: 10px;top: 0px;left: 725px;" class="table showteams">
-                        <tr style="font-size: smaller; color: antiquewhite; border: 1px solid #ddd;">
-                            <th><label for="dia" style="padding-top: 10px;">Dia</label></th>
-                            <th><label for="hora_inicio" style="padding-top: 10px;">Hora inicio equipo</label></th>
-                            <th><label for="hora_fin" style="padding-top: 10px;">Hora fin equipo</label></th>
-                        </tr>
-                        {% for horario in equipo.horarios %}
-                        <tr style="color: antiquewhite; font-weight: bold; font-size: smaller; column-width: auto; border: 1px solid #ddd; padding: 8px;">
-                            <td><input type="text" id="dia" class="form-control" name="dia" placeholder="Dia" value="{{ horario.dia }}" autofocus></td>
-                            <td><input type="text" id="hora_inicio" class="form-control" name="hora_inicio" placeholder="Hora_inicio" value="{{ horario.hora_inicio }}" autofocus></td>
-                            <td><input type="text" id="hora_fin" class="form-control" name="hora_fin" placeholder="Hora_fin" value="{{ horario.hora_fin }}" autofocus></td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-                <div class="container mt-5">
-                    <!-- Contenedor Flexbox para alinear los botones -->
-                    <div class="d-flex align-items-center">
-                        <!-- Botón para actualizar tarea -->
-                        <button class="btn btn-primary btn-lg btn-custom" type="submit">Actualizar equipo</button>
-                        <!-- Espaciado entre el botón y el enlace -->
-                        <div style="margin-left: 20px;"></div>
-                        <!-- Enlace para cancelar -->
-                        <a class="btn btn-secondary btn-lg btn-custom" href="{{ url_for('EquiposBlueprint.equipos') }}" role="button">Cancelar</a>
+<br>
+<br>
+<div class="container mt-5 pt-3">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-7 mr-2 ml-2 border border-secondary" style="right: auto;left: 600px;top: auto;bottom: 720px;text-align: center;" id="formularioeditequipo">
+            <form class="m-3" style="width: auto; align-items: center;" action="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo.id) }}" method="post">
+                <h1 class="h3 mb-3 font-weight-normal" style="font-weight: bold; color: #000;"><strong>Actualizar datos del equipo</strong></h1>
+                    <label for="nombre_equipo" >Nombre equipo<input style="margin-right: 50px;" type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo" value="{{ equipo.nombre_equipo }}" required autofocus></label>
+                    <label for="representante" style="padding-top: 10px;">Representante<input style="margin-right: 50px;" type="text" id="representante" class="form-control" name="representante" placeholder="Representante" value="{{ equipo.representante }}" required autofocus></label>
+                    <label for="subrepresentante" style="padding-top: 10px;">Sub Representante<input style="margin-right: 50px;" type="text" id="subrepresentante" class="form-control" name="subrepresentante" placeholder="Sub Representante" value="{{ equipo.subrepresentante }}" required autofocus></label>
+                    <label for="correo" style="padding-top: 10px;">Correo<input style="margin-right: 50px;" type="text" id="correo" class="form-control" name="correo" placeholder="Correo" value="{{ equipo.correo }}" required autofocus></label>
+    
+                    <!-- Si deseas mostrar los horarios en el mismo formulario, podrías iterar sobre ellos -->
+                            <!-- Tabla de equipos -->
+                    <div class="table-responsive"> 
+                        <table class="table table-bordered" style="right: 10px;top: 0px;left: 725px;" class="table showteams">
+                            <tr style="font-size: smaller; color: antiquewhite; border: 1px solid #ddd;">
+                                <th><label for="dia" style="padding-top: 10px;">Dia</label></th>
+                                <th><label for="hora_inicio" style="padding-top: 10px;">Hora inicio equipo</label></th>
+                                <th><label for="hora_fin" style="padding-top: 10px;">Hora fin equipo</label></th>
+                            </tr>
+                            {% for horario in equipo.horarios %}
+                            <tr style="color: antiquewhite; font-weight: bold; font-size: smaller; column-width: auto; border: 1px solid #ddd; padding: 8px;">
+                                <td><input type="text" id="dia" class="form-control" name="dia" placeholder="Dia" value="{{ horario.dia }}" autofocus></td>
+                                <td><input type="text" id="hora_inicio" class="form-control" name="hora_inicio" placeholder="Hora_inicio" value="{{ horario.hora_inicio }}" autofocus></td>
+                                <td><input type="text" id="hora_fin" class="form-control" name="hora_fin" placeholder="Hora_fin" value="{{ horario.hora_fin }}" autofocus></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
                     </div>
-                </div>
-        </form>
+                    <div class="container mt-5">
+                        <!-- Contenedor Flexbox para alinear los botones -->
+                        <div class="d-flex align-items-center">
+                            <!-- Botón para actualizar tarea -->
+                            <button class="btn btn-primary btn-lg btn-custom" type="submit">Actualizar equipo</button>
+                            <!-- Espaciado entre el botón y el enlace -->
+                            <div style="margin-left: 20px;"></div>
+                            <!-- Enlace para cancelar -->
+                            <a class="btn btn-secondary btn-lg btn-custom" href="{{ url_for('EquiposBlueprint.equipos') }}" role="button">Cancelar</a>
+                        </div>
+                    </div>
+            </form>
+        </div>
+        <br>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'warning' %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong style="font-size: 14px;">{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong style="font-size: 14px;">{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <br>
     </div>
-    <br>
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                {% if category == 'warning' %}
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong style="font-size: 14px;">{{ message }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% else %}
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong style="font-size: 14px;">{{ message }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <br>
+</div>
+
+
 {% endblock %}

@@ -5,81 +5,104 @@
 
 <!-- modificando el bloque title el cual tendra de titulo index -->
 {% block title %}
-Index
+    Index
 {% endblock %}
-
-
-
-{% block container %}
 
 {% block CustomCSS %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css')}}">
 {% endblock %}
 
-<div class="container col-lg-6  mr-1 ml-1" style=" right: auto;left: 600px;top: auto;bottom: 700px;">
-    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel" style=" width: 900px; padding-top: 40px;">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{{url_for('static', filename='img/CE-INSA.png')}}" style="width: 900px; height: 500px;"
-                    alt="Imagen de Centro Escolar INSA">
-            </div>
-            <div class="carousel-item">
-                <img src="{{url_for('static', filename='img/INSA.png')}}" style="width: 900px; height: 500px;"
-                    alt="Imagen de Centro Escolar INSA">
-            </div>
-            <div class="carousel-item">
-                <img src="{{url_for('static', filename='img/INSA2.png')}}" style="width: 900px; height: 500px"
-                    alt="Imagen de Centro Escolar INSA">
-            </div>
-            <div class="carousel-item">
-                <img src="{{url_for('static', filename='img/Cancha8.jpg')}}" style="width: 900px; height: 500px"
-                    alt="Imagen de Centro Escolar INSA">
-            </div>
-            <div class="carousel-item">
-                <img src="{{url_for('static', filename='img/Cancha6.jpg')}}" style="width: 900px; height: 500px"
-                    alt="Imagen de Centro Escolar INSA">
-            </div>
-            <div class="carousel-item">
-                <img src="{{url_for('static', filename='img/Cancha7.jpg')}}" style="width: 900px; height: 500px"
-                    alt="Imagen de Centro Escolar INSA">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-target="#carouselExampleFade" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-target="#carouselExampleFade" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </button>
-    </div>
-
-
-    <div class="card-deck" style=" width: 900px;padding-top: 40px;padding-left: 30px;">
-        <div class="card">
-            <img src="{{url_for('static', filename='img/Cancha2.jpg')}}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
-        </div>
-        <div class="card">
-            <img src="{{url_for('static', filename='img/Cancha9.jpg')}}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
+{% block container %}
+    <h1 class="text-center  py-4 fs-1 fw-bold " style="color: white;">Bienvenidos al Sistema del Torneo INSA </h1>
+        <hr>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{{url_for('static', filename='img/CE-INSA.png')}}" class="rounded float-start img-fluid d-block w-100 h-50 " alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{url_for('static', filename='img/torneo1.jpg')}}" class="rounded float-start img-fluid d-block w-100 h-50 " alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{url_for('static', filename='img/INSA2.png')}}" class="rounded float-start img-fluid d-block w-100 h-50 " alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{url_for('static', filename='img/Cancha8.jpg')}}" class="rounded float-start img-fluid d-block w-100 h-50 " alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{url_for('static', filename='img/Cancha6.jpg')}}" class="rounded float-start img-fluid d-block w-100 h-50 " alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{url_for('static', filename='img/Cancha7.jpg')}}" class="rounded float-start img-fluid d-block w-100 h-50 " alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-5">
+                    <p class="text-left fs-5 " style="color: white;">El Centro Escolar INSA (Instituto Nacional de Santa Ana) es una de las
+                        instituciones educativas más emblemáticas de la ciudad de Santa Ana, El Salvador. Fundado hace varias décadas, el
+                        INSA ha sido un pilar en la formación académica de miles de jóvenes salvadoreños, destacándose por su compromiso con
+                        la educación integral y el desarrollo social de sus estudiantes.
+                    </p>
+                    <p class="text-left  " style="color: white;">
+                        El INSA fue fundado con el objetivo de brindar educación secundaria de calidad a los jóvenes de la región occidental
+                        de El Salvador. Con el paso del tiempo, el instituto se ha consolidado como una de las instituciones más
+                        prestigiosas del país, reconocida por su enfoque en la excelencia académica y el desarrollo de valores cívicos y
+                        sociales en sus alumnos.
+                    
+                        A lo largo de los años, el INSA ha experimentado varias etapas de modernización y crecimiento. Ha ampliado su oferta
+                        educativa para incluir tanto modalidades académicas como técnicas, proporcionando a los estudiantes las herramientas
+                        necesarias para enfrentarse al mundo laboral o continuar con estudios superiores.
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-
-
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 py-4">
+                    <div class="card">
+                        <img src="{{url_for('static', filename='img/Arte_Cultura.jpg')}}"  class="card-img-custom" alt="...">
+                        <div class="card-body">
+                            <p class="card-text "><strong>Cultura y Arte:</strong>“El instituto organiza regularmente eventos culturales, como
+                                presentaciones de teatro, danza y música. Estos eventos no solo muestran el talento de los estudiantes, sino que
+                                también refuerzan la identidad cultural.”</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 py-4">
+                    <div class="card">
+                        <img src="{{url_for('static', filename='img/Cancha7.jpg')}}"  class="card-img-custom" alt="...">
+                        <div class="card-body">
+                            <p class="card-text "><strong>Deportes:</strong>“El INSA cuenta con equipos deportivos en
+                                diversas disciplinas como fútbol, baloncesto y voleibol. Estas actividades no solo promueven la salud física, sino
+                                también el trabajo en equipo y la disciplina entre los estudiantes.”</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 py-4">
+                    <div class="card">
+                        <img src="{{url_for('static', filename='img/ActividadesCivicas.jpg')}}"  class="card-img-custom" alt="...">
+                        <div class="card-body">
+                            <p class="card-text "><strong>Actividades Cívicas:</strong>“ Como parte de su enfoque en la formación cívica, el INSA
+                                organiza actividades para conmemorar fechas importantes, como el Día de la Independencia, donde los estudiantes
+                                participan en desfiles, actos cívicos.
+                                .”</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}

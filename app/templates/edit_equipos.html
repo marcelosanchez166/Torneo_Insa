@@ -10,91 +10,97 @@ Equipos
 
 
 {% block CustomCSS %}
-<link href="{{url_for('static', filename='css/equipos.css')}}" rel="stylesheet">
+
 {% endblock %}
 
 <!-- creamos el block del body que hereda desde base.html con su cierre -->
 {% block container %}
-<div class="col-lg-7 container mr-2 ml-2 border border-secondary" style="right: auto;left: 600px;top: auto;bottom: 720px;text-align: center;" id="formularioeditequipo">
-    <form class="m-3" style="width: auto; align-items: center;" action="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo.id) }}" method="post">
-        <h1 class="h3 mb-3 font-weight-normal" style="font-weight: bold; color: #000;"><strong>Actualizar datos del equipo</strong></h1>
-        <label for="nombre_equipo">Nombre equipo
-            <input style="margin-right: 50px;" type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo" value="{{ equipo.nombre_equipo }}" required autofocus>
-        </label>
-        <label for="representante" style="padding-top: 10px;">Representante
-            <input style="margin-right: 50px;" type="text" id="representante" class="form-control" name="representante" placeholder="Representante" value="{{ equipo.representante }}" required autofocus>
-        </label>
-        <label for="subrepresentante" style="padding-top: 10px;">Sub Representante
-            <input style="margin-right: 50px;" type="text" id="subrepresentante" class="form-control" name="subrepresentante" placeholder="Sub Representante" value="{{ equipo.subrepresentante }}" required autofocus>
-        </label>
-        <label for="correo" style="padding-top: 10px;">Correo
-            <input style="margin-right: 50px;" type="text" id="correo" class="form-control" name="correo" placeholder="Correo" value="{{ equipo.correo }}" required autofocus>
-        </label>
+<div class="container mt-5 pt-3 bg-secondary">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12  mr-2 ml-2 border border-secondary text-center" id="formularioeditequipo">
+            <form class="m-3 d-flex flex-column" action="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo.id) }}" method="post">
+                <h1 class="fs-1 mb-3 "><strong>Actualizar datos del equipo</strong></h1>
+                <div class="container d-flex flex-column align-items-center">
+                    <label class="fs-5 fw-bold" for="nombre_equipo">Nombre equipo
+                        <input  style="width: 300px; align-items: center;" type="text" id="nombre_equipo" class="form-control" name="nombre_equipo" placeholder="Nombre equipo" value="{{ equipo.nombre_equipo }}" required autofocus>
+                    </label>
+                    <label class="fs-5 fw-bold" for="representante" style="padding-top: 10px;">Representante
+                        <input  style="width: 300px; align-items: center;" type="text" id="representante" class="form-control" name="representante" placeholder="Representante" value="{{ equipo.representante }}" required autofocus>
+                    </label>
+                    <label class="fs-5 fw-bold" for="subrepresentante" style="padding-top: 10px;">Sub Representante
+                        <input  style="width: 300px; align-items: center;" type="text" id="subrepresentante" class="form-control" name="subrepresentante" placeholder="Sub Representante" value="{{ equipo.subrepresentante }}" required autofocus>
+                    </label>
+                    <label class="fs-5 fw-bold" for="correo" style="padding-top: 10px;">Correo
+                        <input  style="width: 300px; align-items: center;" type="text" id="correo" class="form-control" name="correo" placeholder="Correo" value="{{ equipo.correo }}" required autofocus>
+                    </label>
+                </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered" style="right: 10px;top: 0px;left: 725px;" class="table showteams">
-                <tr style="font-size: smaller; color: antiquewhite; border: 1px solid #ddd;">
-                    <th>Dia</th>
-                    <th>Hora inicio equipo</th>
-                    <th>Hora fin equipo</th>
-                </tr>
-                {% for horario in equipo.horarios %}
-                <tr style="color: antiquewhite; font-weight: bold; font-size: smaller; column-width: auto; border: 1px solid #ddd; padding: 8px;">
-                    <td>
-                        <label for="dia">{{ horario.dia }}</label>
-                        <input type="checkbox" name="dia" value="{{ horario.dia }}" id="{{ horario.dia }}" checked />
-                    </td>
-                    <td>
-                        <select class="custom-select col-md-6 text-center" id="{{ horario.dia }}_inicio" name="{{ horario.dia }}_hora_inicio">
-                            {% set hora_actual = horario.hora_inicio %}
-                            {% for hora in range(8, 19) %}
-                                <option value="{{ hora }}" {% if hora == hora_actual %}selected{% endif %}>{{ hora }}</option>
+                <div class="align-items-center">
+                    <div class="table-responsive py-5" >
+                        <table class="table-bordered border border-light table showteams table-dark table-striped  table-hover ">
+                            <tr class="mx-auto">
+                                <th>Dia</th>
+                                <th>Hora inicio equipo</th>
+                                <th>Hora fin equipo</th>
+                            </tr>
+                            {% for horario in equipo.horarios %}
+                                <tr class="mx-auto fw-bold">
+                                    <td>
+                                        <label for="dia">{{ horario.dia }}</label>
+                                        <input type="checkbox" name="dia" value="{{ horario.dia }}" id="{{ horario.dia }}" checked />
+                                    </td>
+                                    <td >
+                                        <select class="custom-select col-md-6 text-center" id="{{ horario.dia }}_inicio"
+                                            name="{{ horario.dia }}_hora_inicio">
+                                            {% set hora_actual = horario.hora_inicio %}
+                                                {% for hora in range(8, 19) %}
+                                                    <option value="{{ hora }}" {% if hora==hora_actual %}selected{% endif %}>{{ hora }}</option>
+                                                {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="custom-select col-md-6 text-center" id="{{ horario.dia }}_fin" name="{{ horario.dia }}_hora_fin">
+                                            {% set hora_actual = horario.hora_fin %}
+                                                {% for hora in range(8, 19) %}
+                                                    <option value="{{ hora }}" {% if hora==hora_actual %}selected{% endif %}>{{ hora }} </option>
+                                                {% endfor %}
+                                        </select>
+                                    </td>
+                                </tr>
                             {% endfor %}
-                        </select>
-                    </td>
-                    <td>
-                        <select class="custom-select col-md-6 text-center" id="{{ horario.dia }}_fin" name="{{ horario.dia }}_hora_fin">
-                            {% set hora_actual = horario.hora_fin %}
-                            {% for hora in range(8, 19) %}
-                                <option value="{{ hora }}" {% if hora == hora_actual %}selected{% endif %}>{{ hora }}</option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="container text-center">
+                    <button class="btn btn-primary btn-lg btn-custom" type="submit">Actualizar equipo</button>
+                    <a class="btn btn-light btn-lg btn-custom" href="{{ url_for('EquiposBlueprint.equipos') }}" role="button">Volver a Horarios</a>
+                </div>
+            </form>    
+        </div>
+
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'warning' %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong style="font-size: 14px;">{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong style="font-size: 14px;">{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
                 {% endfor %}
-            </table>
-        </div>
-        
-        <div class="container mt-5">
-            <div class="d-flex align-items-center">
-                <button class="btn btn-primary btn-lg btn-custom" type="submit">Actualizar equipo</button>
-                <div style="margin-left: 20px;"></div>
-                <a class="btn btn-secondary btn-lg btn-custom" href="{{ url_for('EquiposBlueprint.equipos') }}" role="button">Cancelar</a>
-            </div>
-        </div>
-    </form>
-</div>
-<br>
-{% with messages = get_flashed_messages(with_categories=True) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            {% if category == 'warning' %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong style="font-size: 14px;">{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% else %}
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong style="font-size: 14px;">{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
             {% endif %}
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-<br>
+        {% endwith %}
+    </div>
+</div>
 {% endblock %}

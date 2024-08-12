@@ -2,6 +2,7 @@ from flask import  Blueprint, render_template, request,flash, redirect, url_for
 from flask_login import  login_required,current_user
 
 
+
 from app.models.entities.equipos import Equipos
 from app.models.modelo_equipos import ModeloEquipos
 from app.database.db import  get_connection
@@ -25,7 +26,6 @@ def equipos():
             nombre_equipo =  request.form["Nombre_Equipo"]
             print(representante,subrepresentante,correo,nombre_equipo)
 
-
             dia_lunes = request.form.getlist( 'dias[lunes]' )
             for dia in dia_lunes:
                 inicio =int(request.form['horas[{}][inicio]'.format(dia)])
@@ -37,7 +37,6 @@ def equipos():
                     flash('La hora final debe ser distinta a la inicial', 'warning')
                     return redirect(url_for( "EquiposBlueprint.equipos" ))
                 print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
-
 
             dia_martes = request.form.getlist( 'dias[martes]' )
             for dia in dia_martes:
@@ -51,7 +50,6 @@ def equipos():
                     return redirect(url_for( "EquiposBlueprint.equipos" ))
                 print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
 
-
             dia_miercoles = request.form.getlist('dias[miercoles]')
             for dia in dia_miercoles:
                 inicio =int(request.form['horas[{}][inicio]'.format(dia)])
@@ -64,7 +62,6 @@ def equipos():
                     return redirect(url_for( "EquiposBlueprint.equipos" ))
                 print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
 
-
             dia_jueves= request.form.getlist('dias[jueves]')
             for dia in dia_jueves:
                 inicio =int(request.form['horas[{}][inicio]'.format(dia)])
@@ -76,7 +73,6 @@ def equipos():
                     flash('La hora final debe ser distinta a la inicial', 'warning')
                     return redirect(url_for( "EquiposBlueprint.equipos" ))
                 print("Imprimiendo el dia y las horas ",dia,horas_por_dia[dia])
-
 
             dia_viernes = request.form.getlist('dias[viernes]')
             for dia in dia_viernes:
@@ -96,11 +92,7 @@ def equipos():
                 print("DEsde la instancia de Equipos",Add_Equipos.correo, Add_Equipos.nombre_equipo, Add_Equipos.representante, Add_Equipos.subrepresentante)
                 if len(horas_por_dia) >0:
                     Add_teams = ModeloEquipos.add_teams(horas_por_dia,Add_Equipos)
-                    # if Add_teams is not None:
-                    #     flash('Equipo registrado', 'success')
-                    # else :
-                    #     flash('Error in the registration process ', 'warning')
-                    #     return redirect(url_for('EquiposBlueprint.equipos'))
+                    flash('Equipo agregado exitosamente', 'success')
                 else:
                     flash('Debes completar todos los capos del formulario', 'warning')
                     return redirect(url_for('EquiposBlueprint.equipos'))
@@ -180,11 +172,7 @@ def edit_equipo(id):
     # Construir la lista de horarios
     horarios = []
     for row in data2:
-        horario = {
-            'dia': row[5],
-            'hora_inicio': row[6],
-            'hora_fin': row[7]
-        }
+        horario = {'dia': row[5], 'hora_inicio': row[6], 'hora_fin': row[7]}
         horarios.append(horario)
 
     equipo = {
