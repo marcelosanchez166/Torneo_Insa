@@ -15,7 +15,7 @@
     {% endblock %}
     <form class="form-signin text-center" action="{{ url_for('AuthLogin.login') }}"  method="post">
         <input type="hidden" name="csrf_token" ><!--Este input generara el token para la seguridad de nuestros formularios-->
-        <img class="mb-4" src="{{url_for('static', filename='img/Escudo-INSA2.jpg')}}" alt="" width="150" height="150">
+        <img class="mb-4 rounded-circle " src="{{url_for('static', filename='img/Escudo-INSA2.jpg')}}" alt="" width="150" height="150">
         <h1 class="h3 mb-3 font-weight-normal fs-3 fw-bold">Please sign in</h1>
         <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
         <label for="username" class="sr-only py-2 fs-3 fw-bold" >Username</label>
