@@ -11,9 +11,34 @@
 
 
 {% block container %}
-<div class="col-sm-5 container mr-1 ml-1  " style=" right: auto;left: 750px;top: auto;bottom: 700px;">
-    <p>estamos en la plantilla de grupos para ver si se remplaza la plantilla en lugar de ponerse encima 
-    Esta plantilla tendra la posibilidad de agregar mas grupos, actualizar, eliminar  y visualizar los grupos</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <h2>Grupos</h2>
+            <a href="{{ url_for('grupos.create_grupo') }}" class="btn btn-primary"></a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for grupo in grupos %}
+                        <tr>
+                            <td>{{ grupo.nombre }}</td>
+                            <td>{{ grupo.descripcion }}</td>
+                            <td>
+                                <a href="{{ url_for('grupos.edit_grupo', id_grupo=grupo.id_grupo)}}">
+                            </td>
+                        </tr>
+                    {% endblock %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}
