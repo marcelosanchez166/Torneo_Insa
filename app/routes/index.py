@@ -13,6 +13,7 @@ def index():
     print("usuario autenticado desde Equipos ", current_user.is_authenticated )
     if current_user.is_authenticated:
         """Listado de todos los equipos"""
+
         return render_template('index/index.html')
     else:
         """Redirección a la página principal con un mensaje de error"""

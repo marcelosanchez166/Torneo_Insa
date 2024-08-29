@@ -15,6 +15,8 @@ from app.database.db import get_connection as db
 AuthLogin = Blueprint("AuthLogin", __name__)
 
 
+from datetime import date
+
 
 
 @AuthLogin.route("/")
@@ -23,6 +25,8 @@ def index():
 
 @AuthLogin.route('/login', methods=['GET', 'POST'])
 def login():
+    fecha= date.today()
+    print(fecha)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -39,9 +43,9 @@ def login():
                 print("usuario actual de", usuario_logueado )
                 return redirect( url_for( 'IndexBlueprint.index'))#El render_template tambien sirve para dirigir a otra plantilla pero cuando pero para este caso es mejor el redirect ya que funciona como redireccionamiento
         else:
-            return render_template("auth/auth.html")
+            return render_template("auth/auth.html", fecha=fecha)
     else:
-        return render_template("auth/auth.html")
+        return render_template("auth/auth.html", fecha=fecha)
     
 
 

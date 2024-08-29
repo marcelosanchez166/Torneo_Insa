@@ -15,27 +15,30 @@
     <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
             <h2>Grupos</h2>
-            <a href="{{ url_for('grupos.create_grupo') }}" class="btn btn-primary"></a>
+            <!-- <a href="{{ url_for('gruposBlueprint.grupos') }}" class="btn btn-primary"></a> -->
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>id</th>
                         <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Acciones</th>
+                        <!-- <th>Acciones</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     {% for grupo in grupos %}
                         <tr>
-                            <td>{{ grupo.nombre }}</td>
-                            <td>{{ grupo.descripcion }}</td>
+                            <td>{{ grupo[0] }}</td>
+                            <td>{{ grupo[1] }}</td>
                             <td>
-                                <a href="{{ url_for('grupos.edit_grupo', id_grupo=grupo.id_grupo)}}">
+                                <a href="{{ url_for('gruposBlueprint.edit_grupos', grupo_id=grupo[0])}}">
                             </td>
                         </tr>
-                    {% endblock %}
+                    {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-lx-6">
+            <h2>Asignar Equipos a los grupos</h2>
         </div>
     </div>
 
