@@ -16,7 +16,7 @@ Equipos
 {% block container %}
 <div class="container mt-5 pt-4 bg-secondary">
     <div class="row">
-        <div class="col-sm-12 col-md-5 col-lg-5 col-xl-5 border-secondary" id="formularioEquipo">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-5 border-secondary" id="formularioEquipo">
             <h1 class="fw-bold  fs-1 text-center fst-italic"><strong>Agregar Equipos</strong></h1>
             <form class="m-3 fst-italic d-flex flex-column" action="{{ url_for('EquiposBlueprint.equipos') }}"  method="post">
                 <div class="d-flex flex-column align-items-center  form-row" >
@@ -234,14 +234,14 @@ Equipos
                         </tbody>
                     </table>
                 </div>
-                <div class="container text-center">
-                    <button type="submit" class="btn btn-primary" style="width: max-content;">Agregar Equipo</button>
+                <div class="mx-auto">
+                    <button class="btn btn-primary btn-lg btn-custom" type="submit">Agregar Equipo</button>
                 </div>
             </form>
         </div>
 
         <!-- Tabla de equipos -->
-        <div class="col-sm-12 col-md-7 col-lg-7 col-xl-7 py-5">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-7 pt-3">
             <h1 class="fw-bold fs-1 text-center fst-italic" style=" color: #000;">Listado Equipos inscritos</h1>
             <div class="table-responsive"> 
                 <table class="table-bordered border border-light table showteams table-dark table-striped  table-hover fst-italic">
@@ -259,14 +259,14 @@ Equipos
                     <tbody>
                         {% for equipo in data %}
                             <tr class="mx-auto text-center">
-                                <td>{{ equipo[0] }}</td>
-                                <td>{{ equipo[1] }}</td>
-                                <td>{{ equipo[2] }}</td>
-                                <td>{{ equipo[3] }}</td>
-                                <td>{{ equipo[4] }}</td>
-                                <td></td>
-                                <td >
-                                    <div class="container text-center">
+                                <td style="font-size: 12px;">{{ equipo[0] }}</td>
+                                <td style="font-size: 12px;">{{ equipo[1] }}</td>
+                                <td style="font-size: 12px;">{{ equipo[2] }}</td>
+                                <td style="font-size: 12px;">{{ equipo[3] }}</td>
+                                <td style="font-size: 12px;">{{ equipo[4] }}</td>
+                                <td style="font-size: 12px;"></td>
+                                <td style="font-size: 12px;">
+                                    <div class="mx-auto">
                                         <a type="button" class="btn btn-primary" href="{{ url_for('EquiposBlueprint.edit_equipo', id=equipo[0]) }}" >Editar</a>
                                         <a type="button" class="btn btn-danger" href="{{ url_for('EquiposBlueprint.delete_equipo', id=equipo[0]) }}">Eliminar</a>
                                     </div>

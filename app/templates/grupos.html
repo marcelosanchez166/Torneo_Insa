@@ -13,35 +13,57 @@
 {% block container %}
 <div class="container">
     <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-            <h2>Grupos</h2>
+        <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <h2 class="fw-bold  fs-1 text-center fst-italic " style=" color: #000;">Grupos</h2>
             <!-- <a href="{{ url_for('gruposBlueprint.grupos') }}" class="btn btn-primary"></a> -->
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>Nombre</th>
-                        <!-- <th>Acciones</th> -->
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for grupo in grupos %}
+            <div class="table-responsive">
+                <table class="table table-bordered border border-light rounded-start table-dark  table-hover table-striped table-sm text-center">
+                    <thead>
                         <tr>
-                            <td>{{ grupo[0] }}</td>
-                            <td>{{ grupo[1] }}</td>
-                            <td>
-                                <a href="{{ url_for('gruposBlueprint.edit_grupos', grupo_id=grupo[0])}}">
-                            </td>
+                            <th>id</th>
+                            <th>Nombre</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
+                    </thead>
+                    <tbody>
+                        {% for grupo in grupos %}
+                            <tr>
+                                <td>{{ grupo[0] }}</td>
+                                <td>{{ grupo[1] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8 pt-3">
+            <h1 class="fw-bold  fs-1 text-center fst-italic" style=" color: #000;">Asignar Equipos a los grupos</h1>
+            <table class="table-bordered border border-light table showteams table-dark table-striped  table-hover ">
+                <tr class="mx-auto text-center" style="font-size: smaller; border: 1px solid #ddd;">
+                    <th>Equipo</th>
+                    <th>Dia</th>
+                    <th>Hora inicio</th>
+                    <th>Hora Fin</th>
+                    <th>Opciones</th>
+                </tr>
+                {% for horario in dates %}
+                    <tr class="mx-auto text-center" >
+                        <td style="font-size: 15px;">{{ horario.nombre_equipo }}</td>
+                        <td style="font-size: 15px;">{{ horario.dia }}</td>
+                        <td style="font-size: 15px;">{{ horario.hora_inicio }}</td>
+                        <td style="font-size: 15px;">{{ horario.hora_fin }}</td>
+                        <td style="font-size: 15px;">
+                            <div class="mx-auto">
+                                <a type="button" class="btn btn-primary" href="{{ url_for('horariosBlueprint.edit_horarios', id=horario.id_equipo) }}">Editar</a>
+                                <a type="button" class="btn btn-danger" href="{{ url_for('horariosBlueprint.delete_horarios', id=horario.id) }}">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
             </table>
         </div>
-        <div class="col-sm-12 col-md-6 col-lg-6 col-lx-6">
-            <h2>Asignar Equipos a los grupos</h2>
-        </div>
     </div>
-
 </div>
 
 {% endblock %}
