@@ -16,21 +16,34 @@ def grupos():
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM grupos ")
             data = cursor.fetchall()#fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
-        connection= get_connection()
-        with connection.cursor() as cursor:
+            # cursor.execute("""
+            #         SELECT 
+            #             equipos.nombre_equipo,
+            #             horarios.id, 
+            #             horarios.id_equipo,
+            #             horarios.dia, 
+            #             horarios.hora_inicio, 
+            #             horarios.hora_fin  
+            #         FROM equipos 
+            #         JOIN horarios ON equipos.id = horarios.id_equipo ORDER BY equipos.nombre_equipo
+            #     """)
+            # data2 = cursor.fetchall()
+            #horarios = [{'id': row[1], 'nombre_equipo': row[0], 'id_equipo': row[2], 'dia': row[3], 'hora_inicio': row[4], 'hora_fin': row[5]} for row in data2]
             cursor.execute("""
-                    SELECT 
-                        equipos.nombre_equipo,
-                        horarios.id, 
-                        horarios.id_equipo,
-                        horarios.dia, 
-                        horarios.hora_inicio, 
-                        horarios.hora_fin  
-                    FROM equipos 
-                    JOIN horarios ON equipos.id = horarios.id_equipo ORDER BY equipos.nombre_equipo
-                """)
+                SELECT 
+                    equipos.nombre_equipo,
+                    GROUP_CONCAT(
+                        CONCAT(horarios.dia, ' ', horarios.hora_inicio, '-', horarios.hora_fin) 
+                        ORDER BY horarios.dia, horarios.hora_inicio SEPARATOR ', '
+                    ) AS horarios
+                FROM equipos
+                JOIN horarios ON equipos.id = horarios.id_equipo
+                GROUP BY equipos.nombre_equipo
+                ORDER BY MIN(TIMESTAMP(horarios.dia, horarios.hora_inicio));
+            """)
             data2 = cursor.fetchall()
-            horarios = [{'id': row[1], 'nombre_equipo': row[0], 'id_equipo': row[2], 'dia': row[3], 'hora_inicio': row[4], 'hora_fin': row[5]} for row in data2]
+            #Ajustar la creación de `horarios` para reflejar los datos obtenidos de la consulta
+            horarios = [{'nombre_equipo': row[0], 'horarios': row[1]} for row in data2]
         return render_template("grupos.html", grupos=data, dates=horarios)
     else:
         """Redirección a la página principal con un mensaje de error"""
