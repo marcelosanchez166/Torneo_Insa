@@ -7,22 +7,17 @@ from app.database.db import get_connection
 
 gruposBlueprint=Blueprint("gruposBlueprint", __name__)
 
-from itertools import zip_longest
-
 @login_required
 @gruposBlueprint.route("/grupos")
 def grupos():
-    print("usuario autenticado desde Equipos ", current_user.is_authenticated)
+    print("usuario autenticado desde Equipos ", current_user.is_authenticated )
     if current_user.is_authenticated:
-        connection = get_connection()
+        connection= get_connection()
         with connection.cursor() as cursor:
-            # Fetch groups and teams as lists of strings
-            cursor.execute("SELECT nombre FROM grupos")
-            grupos = [row[0] for row in cursor.fetchall()]  # Extract the first value of each tuple
-            
+            cursor.execute("SELECT nombre FROM grupos ")
+            grupos = [row[0] for row in cursor.fetchall()]#Extract the first value of each tuple #fetchone() devuelve una sola fila (la primera fila que cumple con la condición) o None si no hay ninguna fila que coincida.
             cursor.execute("SELECT nombre_equipo FROM equipos")
             equipos = [row[0] for row in cursor.fetchall()]  # Extract the first value of each tuple
-            
             cursor.execute("""
                 SELECT 
                     equipos.nombre_equipo,
@@ -37,17 +32,13 @@ def grupos():
             """)
             data2 = cursor.fetchall()
 
-            # Adjust creation of `horarios` to reflect fetched data
+            #Ajustar la creación de `horarios` para reflejar los datos obtenidos de la consulta
             horarios = [{'nombre_equipo': row[0], 'horarios': row[1]} for row in data2]
 
-        # Combine equipos and grupos for aligned display
-        equipos_grupos = list(zip_longest(equipos, grupos, fillvalue=None))
-
-        return render_template("grupos.html", equipos_grupos=equipos_grupos, dates=horarios)
+        return render_template("grupos.html", grupos=grupos, dates=horarios, equipos=equipos)
     else:
-        # Redirect to the main page with an error message
+        """Redirección a la página principal con un mensaje de error"""
         return render_template('auth/auth.html')
-
 
 
 @login_required

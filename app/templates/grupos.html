@@ -14,46 +14,52 @@
 <div class="container bg-secondary rounded-start rounded-end d-md-block">
     <div class="row">
         <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 pt-3">
-            <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Grupos</h2>
+            <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Asignar Equipos a Grupos</h2>
             <form class="m-3 fst-italic d-flex flex-column" action="{{ url_for('EquiposBlueprint.equipos') }}" method="post">
-                <div class="align-items-center">
-                    <div class="table-responsive py-5">
-                        <table class="table-bordered border border-light table showteams table-dark table-striped table-hover" >
-                            <tr class="mx-auto">
-                                <th>Equipos</th>
-                                <th>Grupos</th>
-                            </tr>
-                            {% for equipo, grupo in equipos_grupos %}
-                            <tr class="mx-auto fw-bold">
-                                <td>
-                                    {% if equipo %}
-                                    <select class="custom-select col-md-6 text-center" id="equipo_{{ equipo }}" name="equipo_{{ equipo }}">
-                                        <option value="{{ equipo }}">{{ equipo }}</option>
-                                    </select>
-                                    {% else %}
-                                    <!-- Empty cell if no more equipos -->
-                                    <span class="text-muted"></span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if grupo %}
-                                    <select class="custom-select col-md-6 text-center" id="grupo_{{ grupo }}" name="grupo_{{ grupo }}">
-                                        <option value="{{ grupo }}">{{ grupo }}</option>
-                                    </select>
-                                    {% else %}
-                                    <!-- Empty cell if no more grupos -->
-                                    <span class="text-muted"></span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </table>
-                    </div>
+                <div class="mb-3">
+                    <label for="selectEquipos" class="form-label fw-bold">Seleccione un Equipo</label>
+                    <select class="form-select" id="selectEquipos" name="equipo">
+                        {% for equipo in equipos %}
+                        <option value="{{ equipo }}" id="equipo_{{ equipo }}">{{ equipo }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
+                <div class="mb-3">
+                    <label for="selectGrupos" class="form-label fw-bold">Seleccione un Grupo</label>
+                    <select class="form-select" id="selectGrupos" name="grupo">
+                        {% for grupo in grupos %}
+                        <option value="{{ grupo }}" id="grupo_{{ grupo }}">{{ grupo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Asignar</button>
             </form>
         </div>
-        
 
+    <!-- Este script de JS sirve para deshabilitar los equipos que ya fueron asignados a un grupo -->
+        <script>
+        // Script para manejar el tachado y deshabilitado de equipos ya asignados
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectEquipos = document.getElementById('selectEquipos');
+        
+            // Función para tachar y deshabilitar el equipo seleccionado después de la asignación
+            function marcarEquipoAsignado(equipo) {
+                const option = document.querySelector(`#equipo_${equipo}`);
+                if (option) {
+                    option.style.textDecoration = 'line-through'; // Tachar
+                    option.disabled = true; // Deshabilitar
+                }
+            }
+        
+            // Ejemplo de cómo marcar un equipo al seleccionar (esto sería adaptado según la lógica de asignación real)
+            selectEquipos.addEventListener('change', function () {
+                const equipoSeleccionado = this.value;
+                if (equipoSeleccionado) {
+                    marcarEquipoAsignado(equipoSeleccionado);
+                }
+            });
+        });
+        </script>
 
 
         <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8 pt-3">
@@ -73,9 +79,6 @@
                 </table>
             </div>
         </div>
-
-
-
     </div>
 </div>
 
