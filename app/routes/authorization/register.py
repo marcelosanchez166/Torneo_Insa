@@ -26,11 +26,11 @@ def register():
         print(username, password, email, "lo que se envia en el formulario \n")
         usuario_re = Usuario(None, username, password, email)
         print(usuario_re.username, usuario_re.password, usuario_re.email, "lo que se le envia a la clase USUARIO \n")
-        user_register = ModeloUsuario.RegisterUser(db, usuario_re)
+        user_register = ModeloUsuario.RegisterUser(usuario_re)
         print("Hola",user_register, "lo que se le envia a la clase MODELOUSUARIO con el Metodo REgisterUser \n")
         if user_register  is not None:
             flash('User successfully registered', 'success')
-            return redirect(url_for('login'))
+            return redirect(url_for('AuthLogin.login'))
         else:
             flash('error registering user', 'warning')
             return render_template('auth/register.html')

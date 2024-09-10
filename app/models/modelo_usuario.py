@@ -57,32 +57,30 @@ class ModeloUsuario():
 
 
     @classmethod
-    def RegisterUser(self, db, usuario_re):
-        print(usuario_re.username,"usuarios enviados desde instancia de app", usuario_re.password, usuario_re.email,"register ssssss")
+    def RegisterUser(self, usuario_re):
+        print(usuario_re.username,"usuarios enviados desde instancia de app", usuario_re.password, usuario_re.email,"register usuario")
         try:
-            cursor = db.connection.cursor()
-            sql = """SELECT id, username, password, email FROM usuarios WHERE 
-            username = '{}'""".format(usuario_re.username)
-            cursor.execute(sql)
-            data = cursor.fetchone()
-            print(data, "Data desde el metodo RegisterUser")
-            if data is None:   # Si el registro no existe en BD, lo crea
-                cursor = db.connection.cursor()
-                # Encriptar la contraseña antes de almacenarla
-                hashed_password = generate_password_hash(usuario_re.password, method='pbkdf2:sha256')
-                #sql = """INSERT INTO usuarios (username, password, email) VALUES ('%s', '%s','%s');""" % \
-                #      (usuario_re.username, hashed_password, usuario_re.email)
-                sql="""INSERT INTO usuarios (username, password, email) VALUES ('{}', '{}', '{}' )""".format(usuario_re.username, hashed_password, usuario_re.email)
-                cursor.execute(sql)
-                db.connection.commit()
-                # Obtener el ID generado automáticamente
-                new_user_id = cursor.lastrowid
-                print("data cuando hago el insert en el metodo registeruser \n", new_user_id)
-                register_user = Usuario(id = new_user_id , username=usuario_re.username, password=hashed_password, email=usuario_re.email)
-                print(register_user, "Imprimiendo lo que se le envia a la clase Usuario desde cuando se le envian las cosas despues de hacer el insert")
-                return register_user
-            else:
-                flash("User exist, Please choose another username", 'warning')
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT id, username, password, email FROM usuarios WHERE username = %s",(usuario_re.username,))
+                data = cursor.fetchone()
+                print(data, "Data desde el metodo RegisterUser")
+                if data is None:   # Si el registro no existe en BD, lo crea
+                    # Encriptar la contraseña antes de almacenarla
+                    hashed_password = generate_password_hash(usuario_re.password, method='pbkdf2:sha256')
+                    #sql = """INSERT INTO usuarios (username, password, email) VALUES ('%s', '%s','%s');""" % \
+                    #      (usuario_re.username, hashed_password, usuario_re.email)
+                    sql="""INSERT INTO usuarios (username, password, email) VALUES (%s, %s, %s)"""
+                    cursor.execute(sql, (usuario_re.username, hashed_password, usuario_re.email))
+                    connection.commit()
+                    # Obtener el ID generado automáticamente
+                    new_user_id = cursor.lastrowid
+                    print("data cuando hago el insert en el metodo registeruser \n", new_user_id)
+                    register_user = Usuario(id = new_user_id , username=usuario_re.username, password=hashed_password, email=usuario_re.email)
+                    print(register_user, "Imprimiendo lo que se le envia a la clase Usuario desde cuando se le envian las cosas despues de hacer el insert")
+                    return register_user
+                else:
+                    flash("User exist, Please choose another username", 'warning')
         except Exception as ex:
             print(f"Error durante la inserción: {ex}")
             raise Exception(str(ex))
