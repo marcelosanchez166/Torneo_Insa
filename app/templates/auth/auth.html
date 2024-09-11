@@ -23,12 +23,6 @@
         <!-- <label for="password" class="sr-only py-2 fs-3 fw-bold" style="color: white;">Password</label> -->
         <br>
         <button class="btn btn-lg btn-primary btn-block " type="submit">Sign in</button>
-        <!-- <div class="container py-3"> -->
-            <button class="btn btn-lg btn-secondary btn-block"> 
-                <a class="text-white" href="{{ url_for('RegisterUser.register') }}"> Sign up</a>
-            </button>
-        <!-- </div> -->
-        <p class="mt-5 mb-3 fs-4 fw-bold text-white">&copy; {{fecha}}</p>   
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -36,9 +30,9 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
+    <button class="btn btn-lg btn-secondary btn-block"> 
+        <a class="text-white" href="{{ url_for('RegisterUser.register') }}"> Sign up</a>
+    </button>
+    <p class="mt-5 mb-3 fs-4 fw-bold text-white">&copy; {{fecha}}</p>  
     </form> 
-
-        <!-- <h2>Login</h2> -->
-
-    <!-- <h1>Formulario</h1> -->
 {% endblock %}
