@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager,  login_user, login_required, logout_user,current_user
 
 # from app import current_user,login_required
@@ -31,10 +31,16 @@ def grupos():
                 ORDER BY MIN(TIMESTAMP(horarios.dia, horarios.hora_inicio));
             """)
             data2 = cursor.fetchall()
-
             #Ajustar la creación de `horarios` para reflejar los datos obtenidos de la consulta
             horarios = [{'nombre_equipo': row[0], 'horarios': row[1]} for row in data2]
-
+            if request.method == "POST":
+                equipo = request.form.get("equipo")
+                grupo = request.form.get("grupo")
+                print(equipo, grupo)
+                return redirect(url_for('gruposBlueprint.grupos'))
+            else:
+                flash("Error en los datos enviador", "warning")
+                
         return render_template("grupos.html", grupos=grupos, dates=horarios, equipos=equipos)
     else:
         """Redirección a la página principal con un mensaje de error"""

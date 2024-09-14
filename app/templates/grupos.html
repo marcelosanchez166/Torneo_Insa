@@ -36,31 +36,6 @@
                 </form>
             </div>
 
-        <!-- Este script de JS sirve para deshabilitar los equipos que ya fueron asignados a un grupo -->
-            <script>
-            // Script para manejar el tachado y deshabilitado de equipos ya asignados
-            document.addEventListener('DOMContentLoaded', function () {
-                const selectEquipos = document.getElementById('selectEquipos');
-            
-                // Función para tachar y deshabilitar el equipo seleccionado después de la asignación
-                function marcarEquipoAsignado(equipo) {
-                    const option = document.querySelector(`#equipo_${equipo}`);
-                    if (option) {
-                        option.style.textDecoration = 'line-through'; // Tachar
-                        option.disabled = true; // Deshabilitar
-                    }
-                }
-            
-                // Ejemplo de cómo marcar un equipo al seleccionar (esto sería adaptado según la lógica de asignación real)
-                selectEquipos.addEventListener('change', function () {
-                    const equipoSeleccionado = this.value;
-                    if (equipoSeleccionado) {
-                        marcarEquipoAsignado(equipoSeleccionado);
-                    }
-                });
-            });
-            </script>
-
 
             <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8 pt-3">
                 <h1 class="fw-bold  fs-1 text-center fst-italic" style=" color: #000;">Listado de equipos y sus horarios</h1>
