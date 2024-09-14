@@ -8,7 +8,7 @@ from app.database.db import get_connection
 gruposBlueprint=Blueprint("gruposBlueprint", __name__)
 
 @login_required
-@gruposBlueprint.route("/grupos")
+@gruposBlueprint.route("/grupos", methods=["GET", "POST"])
 def grupos():
     print("usuario autenticado desde Equipos ", current_user.is_authenticated )
     if current_user.is_authenticated:
