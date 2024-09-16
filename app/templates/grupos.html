@@ -11,9 +11,9 @@
 
 
 {% block container %}
-    <div class="container-xxl bg-secondary rounded-start rounded-end d-md-block mt-5">
+    <div class="container-xxl bg-secondary rounded-start rounded-end d-md-block my-5">
         <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 pt-3">
+            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 pt-5">
                 <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Asignar Equipos a Grupos</h2>
                 <form class="m-3 fst-italic d-flex flex-column" action="{{ url_for('gruposBlueprint.grupos') }}" method="post">
                     <div class="mb-3">
@@ -36,10 +36,9 @@
                 </form>
             </div>
 
-
-            <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8 pt-3">
+            <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8 pt-5">
                 <h1 class="fw-bold  fs-1 text-center fst-italic" style=" color: #000;">Listado de equipos y sus horarios</h1>
-                <div class="table-responsive py-5">
+                <div class="table-responsive py-3">
                     <table class="table-bordered border border-dark table showteams table-secondary table-striped  table-hover ">
                         <tr class="mx-auto text-center border-dark" style="font-size: smaller; border: 1px solid #ddd;">
                             <th>Equipo</th>
@@ -54,6 +53,36 @@
                     </table>
                 </div>
             </div>
+
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <h1 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Grupos</h1>
+                <div class="table-responsive py-3">
+                    <table class="table-bordered border border-dark table showteams table-primary table-striped table-hover" style="table-layout: auto; ">
+                        <tr class="mx-auto text-center border-dark fw-bold fs-2" style="border: 1px solid #ddd;">
+                            <th style="padding: 2px 10px; white-space: nowrap;">Grupo</th>
+                            <th style="padding: 2px 10px; white-space: nowrap;">Equipo</th>
+                            <th style="padding: 2px 10px; white-space: nowrap;">Opciones</th>
+                        </tr>
+                        {% for grupos in grupos_creados %}
+                        <tr class="mx-auto text-center fw-semibold" >
+                            <td style="font-size: 15px; padding: 2px 10px; white-space: nowrap;">{{ grupos.nombre_equipo }}</td>
+                            <td style="font-size: 15px; padding: 2px 10px; white-space: nowrap;">{{ grupos.nombre }}</td>
+                            <!-- <td style="font-size: 15px; padding: 2px 10px; white-space: nowrap;">{{ grupos.grupo_id }}</td> -->
+<!-- El update a la tabla equipos no va a servir porque estoy mostrando mas de un equipo en la misma tabla para el grupo, por lo que tendria que hacer un update para el grupo
+ya que este grupo_id corresponde a la tabla equipos y debo hacer el update y el "DELETE" atravez de la tabla grupos -->
+                            <td style="font-size: 15px;">
+
+                                <!-- Aqui deben ir los botones para actualizar y "Eliminar" los equipos de los grupos, 
+                                o mas bien quitar de la tabla equipos para cada equipo el grupo que tiene asignado -->
+                                <!-- Los botones los puedo ir a traear a cualquier otra plantilla -->
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 {% endblock %}
