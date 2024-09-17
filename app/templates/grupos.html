@@ -32,7 +32,7 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Asignar</button>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
                 </form>
             </div>
 
@@ -59,14 +59,14 @@
                 <div class="table-responsive py-3">
                     <table class="table-bordered border border-dark table showteams table-primary table-striped table-hover" style="table-layout: auto; ">
                         <tr class="mx-auto text-center border-dark fw-bold fs-2" style="border: 1px solid #ddd;">
-                            <th style="padding: 2px 10px; white-space: nowrap;">Grupo</th>
                             <th style="padding: 2px 10px; white-space: nowrap;">Equipo</th>
+                            <th style="padding: 2px 10px; white-space: nowrap;">Grupos</th>
                             <th style="padding: 2px 10px; white-space: nowrap;">Opciones</th>
                         </tr>
                         {% for grupos in grupos_creados %}
                         <tr class="mx-auto text-center fw-semibold" >
                             <td style="font-size: 15px; padding: 2px 10px; white-space: nowrap;">{{ grupos.nombre_equipo }}</td>
-                            <td style="font-size: 15px; padding: 2px 10px; white-space: nowrap;">{{ grupos.nombre }}</td>
+                            <td style="font-size: 15px; padding: 2px 10px; white-space: nowrap;">{{ grupos.nombre_grupo }}</td>
                             <!-- <td style="font-size: 15px; padding: 2px 10px; white-space: nowrap;">{{ grupos.grupo_id }}</td> -->
 <!-- El update a la tabla equipos no va a servir porque estoy mostrando mas de un equipo en la misma tabla para el grupo, por lo que tendria que hacer un update para el grupo
 ya que este grupo_id corresponde a la tabla equipos y debo hacer el update y el "DELETE" atravez de la tabla grupos -->
@@ -75,7 +75,8 @@ ya que este grupo_id corresponde a la tabla equipos y debo hacer el update y el 
                                 <!-- Aqui deben ir los botones para actualizar y "Eliminar" los equipos de los grupos, 
                                 o mas bien quitar de la tabla equipos para cada equipo el grupo que tiene asignado -->
                                 <!-- Los botones los puedo ir a traear a cualquier otra plantilla -->
-
+                                <a type="button" class="btn btn-primary" href="{{ url_for('gruposBlueprint.edit_grupos', id_equipo=grupos.id) }}" >Editar</a>
+                                <a type="button" class="btn btn-danger" href="{{ url_for('gruposBlueprint.delete_grupos', id_equipo=grupos.id) }}">Eliminar</a>
                             </td>
                         </tr>
                         {% endfor %}

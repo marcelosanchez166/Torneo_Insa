@@ -135,9 +135,7 @@ def edit_equipo(id):
                             'hora_inicio': hora_inicio,
                             'hora_fin': hora_fin
                         })
-            
-            #print(horas_por_dia, "Horarios procesados")
-            
+
             update = Equipos(id, nombre_equipo, representante, subrepresentante, correo, None)
             try:
                 if update:
@@ -183,7 +181,6 @@ def edit_equipo(id):
         'correo': data2[0][4],
         'horarios': horarios
     }
-
     return render_template("edit_equipos.html", equipo=equipo)
 
 

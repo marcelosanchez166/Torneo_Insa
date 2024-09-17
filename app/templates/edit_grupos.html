@@ -1,0 +1,39 @@
+<!-- esta sera la plantilla que va a renderizar la vista index desde el archivo __init__.py  -->
+
+<!-- Para comenzar debemos hacer un extends de body.html -->
+{% extends './body.html' %}
+
+<!-- modificando el bloque title el cual tendra de titulo index -->
+{% block title %} 
+    Grupos 
+{% endblock %} 
+
+
+
+{% block container %}
+    <div class="container-xxl bg-secondary rounded-start rounded-end d-md-block my-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-5">
+                <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Actualizar el grupo del equipo</h2>
+                <form class="m-3 fst-italic d-flex flex-column" action="{{ url_for('gruposBlueprint.edit_grupos', id_equipo=equipos[0]) }}" method="post">
+                    <div class="mb-3">
+                        <label for="selectEquipos" class="form-label fw-bold">Seleccione un Equipo</label>
+                        <select class="form-select" id="selectEquipos" name="equipo">
+                            <option value="{{ equipos[1] }}" id="equipo_{{ equipos[1] }}">{{ equipos[1] }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="selectGrupos" class="form-label fw-bold">Seleccione un Grupo</label>
+                        <select class="form-select" id="selectGrupos" name="grupo">
+                            {% for grupo in grupos %}
+                            <option value="{{ grupo }}" id="grupo_{{ grupo }}">{{ grupo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Actualizar grupo</button>
+                    <!-- Agregar boton para volver a la plantilla grupos -->
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
