@@ -39,26 +39,16 @@ def horarios():
                     flash("Horario agregado correctamente", 'success')
                 else:
                     flash("No se pudieron agregar horarios. Revise las entradas.", 'warning')
-
+        with connection.cursor() as cursor:                    
             cursor.execute("SELECT id, nombre_equipo, representante, subrepresentante, correo, grupo_id FROM equipos")
             equipos = cursor.fetchall()
-
             cursor.execute("""
-                SELECT 
-                    equipos.nombre_equipo,
-                    horarios.id, 
-                    horarios.id_equipo,
-                    horarios.dia, 
-                    horarios.hora_inicio, 
-                    horarios.hora_fin  
-                FROM equipos 
+                SELECT equipos.nombre_equipo, horarios.id, horarios.id_equipo, horarios.dia, horarios.hora_inicio, horarios.hora_fin  FROM equipos 
                 JOIN horarios ON equipos.id = horarios.id_equipo ORDER BY equipos.nombre_equipo
-            """)
+                """)
             data2 = cursor.fetchall()
-
             horarios = [{'id': row[1], 'nombre_equipo': row[0], 'id_equipo': row[2], 'dia': row[3], 'hora_inicio': row[4], 'hora_fin': row[5]} for row in data2]
-
-        return render_template("horarios.html", data=data, equipos=equipos, dates=horarios)
+            return render_template("horarios.html", data=data, equipos=equipos, dates=horarios)
     else:
         flash('You must be logged in to access this page', 'warning')
         return redirect(url_for('AuthLogin.login'))

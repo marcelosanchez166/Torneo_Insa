@@ -44,17 +44,18 @@ def grupos():
                     flash("Equipo agregado al grupo exitosamente", "success")
                     return redirect(url_for('gruposBlueprint.grupos'))
             else:
-                flash("Error en los datos enviador", "warning")
+                # flash("Error en los datos enviador", "warning")
+                # return render_template("grupos.html")
             # cursor.execute("""SELECT  grupos.id, grupos.nombre AS grupo, GROUP_CONCAT(equipos.nombre_equipo ORDER BY equipos.nombre_equipo SEPARATOR ', ') AS equipos
             #             FROM equipos JOIN grupos ON equipos.grupo_id = grupos.id 
             #             GROUP BY grupos.nombre 
             #             ORDER BY grupos.nombre;
             #             """)
-            cursor.execute("SELECT equipos.id, equipos.nombre_equipo, grupos.nombre FROM equipos JOIN  grupos ON equipos.grupo_id = grupos.id ORDER BY grupos.nombre")
-            GruposE = cursor.fetchall()
-            grupos_creados = [{'id' : row[0],'nombre_equipo': row[1], 'nombre_grupo': row[2]} for row in GruposE]
-            #print(grupos_creados[0])
-        return render_template("grupos.html", grupos=grupos, dates=horarios, equipos=equipos, grupos_creados=grupos_creados)
+                cursor.execute("SELECT equipos.id, equipos.nombre_equipo, grupos.nombre FROM equipos JOIN  grupos ON equipos.grupo_id = grupos.id ORDER BY grupos.nombre")
+                GruposE = cursor.fetchall()
+                grupos_creados = [{'id' : row[0],'nombre_equipo': row[1], 'nombre_grupo': row[2]} for row in GruposE]
+                #print(grupos_creados[0])
+            return render_template("grupos.html", grupos=grupos, dates=horarios, equipos=equipos, grupos_creados=grupos_creados)
     else:
         """Redirección a la página principal con un mensaje de error"""
         return render_template('auth/auth.html')
