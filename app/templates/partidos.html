@@ -11,48 +11,9 @@
 {% block container %}
     <div class="container-xxl bg-secondary rounded-start rounded-end d-md-block my-5 ">
         <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-4 col-lx-4">
-                <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Asignar partidos semanales</h2>
-                <form class="m-3" action="{{ url_for('partidosBlueprint.partidos') }}" method="post">
-                    <div class="mb-3">
-                        <label for="selectGrupos" class="form-label fw-bold">Seleccione un Grupo</label>
-                        <select class="form-select" id="selectGrupos" name="grupo" onchange="updateTeams()">
-                            <option value="" disabled selected>Selecciona un grupo</option>
-                            {% for grupo in grupos %}
-                                <option value="{{ grupo }}" id="grupo_{{ grupo }}">{{ grupo }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
 
-                    <!-- Hay que ver como hacer para que se muestren dos selects de equipos pero que pertenezcan al mismo grupo y una vez seleccionado
-                    un equipo de un grupo en el otro select no debe aparecer ese equipo que ya fue seleccionado o debe aparecer deshabilitado -->
-                    <!-- Selección del equipo 1 -->
-                    <div class="mb-3">
-                        <label for="selectEquipo1" class="form-label fw-bold">Seleccione el Equipo 1</label>
-                        <select class="form-select" id="selectEquipo1" name="equipo1" onchange="filterEquipo2()">
-                            <option value="" disabled selected>Selecciona un equipo</option>
-                        </select>
-                    </div>
-                    <!-- Selección del equipo 2 -->
-                    <div class="mb-3">
-                        <label for="selectEquipo2" class="form-label fw-bold">Seleccione el Equipo 2</label>
-                        <select class="form-select" id="selectEquipo2" name="equipo2">
-                            <option value="" disabled selected>Selecciona un equipo</option>
-                        </select>
-                    </div>
 
-                    <!-- Selección de fecha y hora -->
-                    <div class="mb-3">
-                        <label for="meeting" class="form-label fw-bold">Seleccione fecha y hora</label>
-                        <input class="form-select" type="datetime-local" id="meeting" name="meeting" min="2024-09-21T10:00" max="2024-12-31T18:00" step="600" required>
-                    </div>
-
-                    <!-- Botón de enviar -->
-                    <button type="submit" class="btn btn-primary">Agregar</button>
-                </form>
-            </div>
-
-            <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8 pt-5">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-5">
                 <h1 class="fw-bold  fs-1 text-center fst-italic" style=" color: #000;">Listado de equipos y sus horarios</h1>
                 <div class="table-responsive py-3">
                     <table class="table-bordered border border-dark table showteams table-secondary table-striped  table-hover ">
@@ -69,7 +30,20 @@
                     </table>
                 </div>
             </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-lx-12">
+                <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Asignar partidos semanales</h2>
+                <form class="m-3" action="{{ url_for('partidosBlueprint.partidos') }}" method="post">
 
+
+                    <!-- Botón de enviar -->
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </form>
+            </div>
+            {% for i in range(conteo_grupo) %}
+                <div class="col-sm-12 col-md-12 col-lg-12 col-lx-12">
+                    <p>Grupo {{ i + 1 }}</p>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

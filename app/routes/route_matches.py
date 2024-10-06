@@ -25,9 +25,11 @@ def partidos():
                 ORDER BY MIN(TIMESTAMP(horarios.dia, horarios.hora_inicio));
             """)
             data2 = cursor.fetchall()
+            cursor.execute("""SELECT COUNT(DISTINCT grupo_id) FROM equipos;""")
+            conteo_grupo = cursor.fetchone()[0]  # Obtener el primer valor de la tupla
             #Ajustar la creación de `horarios` para reflejar los datos obtenidos de la consulta
             horarios = [{'nombre_equipo': row[0], 'horarios': row[1]} for row in data2]
-            return render_template("partidos.html",  dates=horarios)
+            return render_template("partidos.html",  dates=horarios, conteo_grupo=conteo_grupo)
     else:
         """Redirección a la página principal con un mensaje de error"""
         return render_template('auth/auth.html')
