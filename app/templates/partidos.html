@@ -34,16 +34,30 @@
                 <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Asignar partidos semanales</h2>
                 <form class="m-3" action="{{ url_for('partidosBlueprint.partidos') }}" method="post">
 
+                    {% for grupo in grupos %}
+                        {% for i in range(grupo.total_grupos) %}
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-lx-12">
+                                <table class="table-bordered border border-dark table showteams table-secondary table-striped  table-hover ">
+                                    <tr class="mx-auto text-center border-dark" style="font-size: smaller; border: 1px solid #ddd;">
+                                        <th>{{ grupo.nombre_grupo }}</th>
+                                        <!-- <th>horarios</th> -->
+                                    </tr>
+                                        <tr class="mx-auto text-center" >
+                                            <td style="font-size: 15px;">{{grupo.nombre_equipo}}</td>
+                                        </tr>
+                                </table>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
 
                     <!-- Botón de enviar -->
                     <button type="submit" class="btn btn-primary">Agregar</button>
                 </form>
             </div>
-            {% for i in range(conteo_grupo) %}
-                <div class="col-sm-12 col-md-12 col-lg-12 col-lx-12">
-                    <p>Grupo {{ i + 1 }}</p>
-                </div>
-            {% endfor %}
+
+
+
+
         </div>
     </div>
 {% endblock %}
