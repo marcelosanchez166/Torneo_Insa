@@ -26,16 +26,41 @@ def partidos():
             """)
             data2 = cursor.fetchall()
             print(type(data2))
-            cursor.execute("""SELECT e.grupo_id, g.nombre AS nombre_grupo, (SELECT COUNT(DISTINCT grupo_id) FROM equipos)
-                        AS total_grupos, e.id AS equipo_id, e.nombre_equipo FROM equipos e 
-                        JOIN grupos g ON e.grupo_id = g.id 
-                        ORDER BY e.grupo_id, e.nombre_equipo;""")
+
+            cursor.execute("""
+                SELECT e.grupo_id, g.nombre AS nombre_grupo, 
+                    (SELECT COUNT(DISTINCT grupo_id) FROM equipos) AS total_grupos, 
+                    e.id AS equipo_id, e.nombre_equipo 
+                    FROM equipos e 
+                    JOIN grupos g ON e.grupo_id = g.id 
+                    ORDER BY e.grupo_id, e.nombre_equipo;""")
             conteo_grupo = cursor.fetchall()  # Obtener los valores
-            count = 0
-            grupos = []  # Crear lista vacía
+
+            grupos_dict = {}
             for row in conteo_grupo:
-                count += row[0]  # Sumar el total de grupos
-                grupos.append({'grupo_id': row[0],'nombre_grupo': row[1], 'total_grupos': row[2], 'equipo_id':row[3], 'nombre_equipo':row[4], 'count': count})  # Agregar cada grupo a la lista
+                grupo_id = row[0]
+                nombre_grupo = row[1]
+                total_grupos = row[2]
+                equipo_id = row[3]
+                nombre_equipo = row[4]
+                
+                # Si el grupo_id no está en el diccionario, lo agregamos con sus datos
+                if grupo_id not in grupos_dict:
+                    grupos_dict[grupo_id] = {
+                        'grupo_id': grupo_id,
+                        'nombre_grupo': nombre_grupo,
+                        'total_grupos': total_grupos,
+                        'equipos': []  # Inicializamos una lista vacía de equipos
+                    }
+                
+                # Agregamos el equipo al grupo correspondiente
+                grupos_dict[grupo_id]['equipos'].append({
+                    'equipo_id': equipo_id,
+                    'nombre_equipo': nombre_equipo
+                })
+
+            # Convertimos el diccionario en una lista para pasarlo al template
+            grupos = list(grupos_dict.values())
             print(grupos)
             #Ajustar la creación de `horarios` para reflejar los datos obtenidos de la consulta
             horarios = [{'nombre_equipo': row[0], 'horarios': row[1]} for row in data2]

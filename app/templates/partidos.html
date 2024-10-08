@@ -12,9 +12,8 @@
     <div class="container-xxl bg-secondary rounded-start rounded-end d-md-block my-5 ">
         <div class="row">
 
-
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-5">
-                <h1 class="fw-bold  fs-1 text-center fst-italic" style=" color: #000;">Listado de equipos y sus horarios</h1>
+                <h1 class="fw-bold  fs-1 text-center fst-italic" style=" color: #000;">Equipos y horarios</h1>
                 <div class="table-responsive py-3">
                     <table class="table-bordered border border-dark table showteams table-secondary table-striped  table-hover ">
                         <tr class="mx-auto text-center border-dark" style="font-size: smaller; border: 1px solid #ddd;">
@@ -30,34 +29,71 @@
                     </table>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-12 col-lx-12">
-                <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Asignar partidos semanales</h2>
-                <form class="m-3" action="{{ url_for('partidosBlueprint.partidos') }}" method="post">
 
-                    {% for grupo in grupos %}
-                        {% for i in range(grupo.total_grupos) %}
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-lx-12">
-                                <table class="table-bordered border border-dark table showteams table-secondary table-striped  table-hover ">
-                                    <tr class="mx-auto text-center border-dark" style="font-size: smaller; border: 1px solid #ddd;">
-                                        <th>{{ grupo.nombre_grupo }}</th>
-                                        <!-- <th>horarios</th> -->
+            <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Agendar Partidos por grupos</h2>
+            {% for grupo in grupos %}
+                <div class="col-sm-4 col-md-4 col-lg-4 col-lx-4 pt-5">                
+                    <form class="m-3" action="{{ url_for('partidosBlueprint.partidos') }}" method="post">
+                        <div class="table-responsive py-3">
+                            <table class="table-bordered border border-dark table showteams table-primary table-striped table-hover"
+                                style="table-layout: auto;">
+                                <thead>
+                                    <tr class="mx-auto text-center border-dark fw-bold" style="border: 1px solid #ddd;">
+                                        <th>Grupo</th>
+                                        <th>Equipo</th>
                                     </tr>
-                                        <tr class="mx-auto text-center" >
-                                            <td style="font-size: 15px;">{{grupo.nombre_equipo}}</td>
+                                </thead>
+                                <tbody>
+                                    <!-- Mostrar grupo con rowspan para que abarque todos sus equipos -->
+                                    <tr>
+                                        <td rowspan="{{ grupo.equipos | length }}">
+                                            <strong>{{ grupo.nombre_grupo }}</strong>
+                                        </td>
+                                        <!-- Mostrar el primer equipo en la misma fila -->
+                                        <td>{{ grupo.equipos[0].nombre_equipo }}</td>
+                                    </tr>
+                                    <!-- Mostrar los demás equipos en filas independientes -->
+                                    {% for equipo in grupo.equipos[1:] %}
+                                        <tr>
+                                            <td>{{ equipo.nombre_equipo }}</td>
                                         </tr>
-                                </table>
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-
-                    <!-- Botón de enviar -->
-                    <button type="submit" class="btn btn-primary">Agregar</button>
-                </form>
-            </div>
-
-
-
-
+                                    {% endfor %}
+                                    <tr>
+                                        <td>
+                                            <select name="equipo1_{{ grupo.grupo_id }}" class="form-select">
+                                                <option value="">Selecciona equipo 1</option>
+                                                {% for equipo in grupo.equipos %}
+                                                <option value="{{ equipo.nombre_equipo }}">{{ equipo.nombre_equipo }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="equipo2_{{ grupo.grupo_id }}" class="form-select">
+                                                <option value="">Selecciona equipo 2</option>
+                                                {% for equipo in grupo.equipos %}
+                                                    <option value="{{ equipo.nombre_equipo }}">{{ equipo.nombre_equipo }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <label for="meeting" class="form-label fw-bold">Seleccione fecha y hora</label>
+                                            <input class="form-select" type="datetime-local" id="meeting" name="meeting"
+                                                min="2024-09-21T10:00" max="2024-12-31T18:00" step="600" required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="mx-auto text-center border-dark fw-bold"> <!-- Botón de enviar -->
+                                            <button type="submit" class="btn btn-primary">Agregar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
