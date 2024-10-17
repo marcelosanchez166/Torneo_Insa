@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import  login_required,current_user
 from app.database.db import get_connection
 
@@ -22,8 +22,7 @@ def partidos():
                 FROM equipos
                 JOIN horarios ON equipos.id = horarios.id_equipo
                 GROUP BY equipos.nombre_equipo
-                ORDER BY MIN(TIMESTAMP(horarios.dia, horarios.hora_inicio));
-            """)
+                ORDER BY MIN(TIMESTAMP(horarios.dia, horarios.hora_inicio));""")
             data2 = cursor.fetchall()
             print(type(data2))
 
@@ -58,7 +57,20 @@ def partidos():
                     'equipo_id': equipo_id,
                     'nombre_equipo': nombre_equipo
                 })
-
+            if request.method == "POST":
+                # Procesar los equipos dependiendo de los grupos
+                horas_por_dia = []
+                for key, value in request.form.items():
+                    if "_hora_inicio" in key:
+                        dia = key.split("_")[0]
+                        hora_inicio = value
+                        hora_fin = request.form.get(f"{dia}_hora_fin")
+                        if hora_inicio and hora_fin:
+                            horas_por_dia.append({
+                                'dia': dia,
+                                'hora_inicio': hora_inicio,
+                                'hora_fin': hora_fin
+                            })
             # Convertimos el diccionario en una lista para pasarlo al template
             grupos = list(grupos_dict.values())
             print(grupos)

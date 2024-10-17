@@ -12,6 +12,7 @@
     <div class="container-xxl bg-secondary rounded-start rounded-end d-md-block my-5 ">
         <div class="row">
 
+            <!-- Mostrando los Equipos y sus Horarios -->
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-5">
                 <h1 class="fw-bold  fs-1 text-center fst-italic" style=" color: #000;">Equipos y horarios</h1>
                 <div class="table-responsive py-3">
@@ -30,6 +31,7 @@
                 </div>
             </div>
 
+            <!-- Mostrando los Grupos  para asignar cada partido de cada grupo -->
             <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Agendar Partidos por grupos</h2>
             {% for grupo in grupos %}
                 <div class="col-sm-4 col-md-4 col-lg-4 col-lx-4 pt-5">                
@@ -60,7 +62,7 @@
                                     {% endfor %}
                                     <tr>
                                         <td>
-                                            <select name="equipo1_{{ grupo.grupo_id }}" class="form-select">
+                                            <select name="equipo1_{{ grupo.grupo_id }}" class="form-select" required>
                                                 <option value="">Selecciona equipo 1</option>
                                                 {% for equipo in grupo.equipos %}
                                                 <option value="{{ equipo.nombre_equipo }}">{{ equipo.nombre_equipo }}</option>
@@ -68,7 +70,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="equipo2_{{ grupo.grupo_id }}" class="form-select">
+                                            <select name="equipo2_{{ grupo.grupo_id }}" class="form-select" required>
                                                 <option value="">Selecciona equipo 2</option>
                                                 {% for equipo in grupo.equipos %}
                                                     <option value="{{ equipo.nombre_equipo }}">{{ equipo.nombre_equipo }}</option>
@@ -94,6 +96,7 @@
                     </form>
                 </div>
             {% endfor %}
+
         </div>
     </div>
 {% endblock %}
