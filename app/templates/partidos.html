@@ -9,7 +9,7 @@
 {% endblock %} 
 
 {% block container %}
-    <div class="container-xxl bg-secondary rounded-start rounded-end d-md-block my-5 ">
+    <div class="container-xxl bg-secondary rounded-start rounded-end d-md-block mt-5 ">
         <div class="row">
 
             <!-- Mostrando los Equipos y sus Horarios -->
@@ -60,6 +60,7 @@
                                             <td>{{ equipo.nombre_equipo }}</td>
                                         </tr>
                                     {% endfor %}
+                                    {% SET equipo.nombre_equipo %}
                                     <tr>
                                         <td>
                                             <select name="equipo1_{{ grupo.grupo_id }}" class="form-select" required>

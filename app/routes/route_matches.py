@@ -24,7 +24,7 @@ def partidos():
                 GROUP BY equipos.nombre_equipo
                 ORDER BY MIN(TIMESTAMP(horarios.dia, horarios.hora_inicio));""")
             data2 = cursor.fetchall()
-            print(type(data2))
+            #print(type(data2))
 
             cursor.execute("""
                 SELECT e.grupo_id, g.nombre AS nombre_grupo, 
@@ -73,9 +73,11 @@ def partidos():
                             })
             # Convertimos el diccionario en una lista para pasarlo al template
             grupos = list(grupos_dict.values())
-            print(grupos)
+            #print(grupos)
             #Ajustar la creación de `horarios` para reflejar los datos obtenidos de la consulta
             horarios = [{'nombre_equipo': row[0], 'horarios': row[1]} for row in data2]
+            if request.method == "POST":
+                
             return render_template("partidos.html",  dates=horarios, grupos=grupos)
     else:
         """Redirección a la página principal con un mensaje de error"""
