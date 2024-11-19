@@ -76,7 +76,7 @@ def partidos():
             #print(grupos)
             #Ajustar la creación de `horarios` para reflejar los datos obtenidos de la consulta
             horarios = [{'nombre_equipo': row[0], 'horarios': row[1]} for row in data2]
-            if request.method == "POST":
+            # if request.method == "POST":
                 
             return render_template("partidos.html",  dates=horarios, grupos=grupos)
     else:
