@@ -1,9 +1,8 @@
 class Partidos:
-    def __init__(self, id, id_equipo_local,id_equipo_visitante, resultado ,date, grupo_id):
+    def __init__(self, id, id_equipo_local, id_equipo_visitante ,date, grupo_id):
         self.id = id
         self.id_equipo_local = id_equipo_local
         self.id_equipo_visitante = id_equipo_visitante
-        self.resultado = resultado
         self.grupo_id = grupo_id
         self.date = date
 

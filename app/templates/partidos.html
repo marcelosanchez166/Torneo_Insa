@@ -4,98 +4,134 @@
 {% extends './body.html' %}
 
 <!-- modificando el bloque title el cual tendra de titulo index -->
-{% block title %} 
-    Partidos 
-{% endblock %} 
+{% block title %}
+Partidos
+{% endblock %}
 
 {% block container %}
-    <div class="container-xxl bg-secondary rounded-start rounded-end d-md-block mt-5 ">
-        <div class="row">
-
-            <!-- Mostrando los Equipos y sus Horarios -->
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-5">
-                <h1 class="fw-bold  fs-1 text-center fst-italic" style=" color: #000;">Equipos y horarios</h1>
-                <div class="table-responsive py-3">
-                    <table class="table-bordered border border-dark table showteams table-secondary table-striped  table-hover ">
-                        <tr class="mx-auto text-center border-dark" style="font-size: smaller; border: 1px solid #ddd;">
-                            <th>Equipo</th>
-                            <th>horarios</th>
-                        </tr>
-                        {% for horario in dates %}
-                            <tr class="mx-auto text-center" >
-                                <td style="font-size: 15px;">{{ horario.nombre_equipo }}</td>
-                                <td style="font-size: 15px;">{{ horario.horarios }}</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
+<div class="container-sm bg-secondary rounded-start rounded-end d-md-block mt-5 ">
+    <h1 class="fw-bold pt-5 fs-1 text-center fst-italic" style=" color: #000;">Equipos y horarios</h1>
+    <div class="row">
+        <!-- Mostrando los Equipos y sus Horarios -->
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-5">
+            <div class="table-responsive py-2">
+                <table
+                    class="table-bordered border border-dark table showteams table-secondary table-striped  table-hover  ">
+                    <tr class="mx-auto text-center border-dark" style="font-size: smaller; border: 1px solid #ddd;">
+                        <th>Equipo</th>
+                        <th>horarios</th>
+                    </tr>
+                    {% for horario in dates %}
+                    <tr class="mx-auto text-center">
+                        <td style="font-size: 15px;">{{ horario.nombre_equipo }}</td>
+                        <td style="font-size: 15px;">{{ horario.horarios }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
-
-            <!-- Mostrando los Grupos  para asignar cada partido de cada grupo -->
-            <h2 class="fw-bold fs-1 text-center fst-italic" style="color: #000;">Agendar Partidos por grupos</h2>
-            {% for grupo in grupos %}
-                <div class="col-sm-4 col-md-4 col-lg-4 col-lx-4 pt-5">                
-                    <form class="m-3" action="{{ url_for('partidosBlueprint.partidos') }}" method="post">
-                        <div class="table-responsive py-3">
-                            <table class="table-bordered border border-dark table showteams table-primary table-striped table-hover"
-                                style="table-layout: auto;">
-                                <thead>
-                                    <tr class="mx-auto text-center border-dark fw-bold" style="border: 1px solid #ddd;">
-                                        <th>Grupo</th>
-                                        <th>Equipo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Mostrar grupo con rowspan para que abarque todos sus equipos -->
-                                    <tr>
-                                        <td rowspan="{{ grupo.equipos | length }}">
-                                            <strong>{{ grupo.nombre_grupo }}</strong>
-                                        </td>
-                                        <!-- Mostrar el primer equipo en la misma fila -->
-                                        <td>{{ grupo.equipos[0].nombre_equipo }}</td>
-                                    </tr>
-                                    <!-- Mostrar los demás equipos en filas independientes -->
-                                    {% for equipo in grupo.equipos[1:] %}
-                                        <tr>
-                                            <td>{{ equipo.nombre_equipo }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                    <tr>
-                                        <td>
-                                            <select name="equipo1_{{ grupo.grupo_id }}" class="form-select" required>
-                                                <option value="">Selecciona equipo 1</option>
-                                                {% for equipo in grupo.equipos %}
-                                                <option value="{{ equipo.nombre_equipo }}">{{ equipo.nombre_equipo }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="equipo2_{{ grupo.grupo_id }}" class="form-select" required>
-                                                <option value="">Selecciona equipo 2</option>
-                                                {% for equipo in grupo.equipos %}
-                                                    <option value="{{ equipo.nombre_equipo }}">{{ equipo.nombre_equipo }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <label for="meeting" class="form-label fw-bold">Seleccione fecha y hora</label>
-                                            <input class="form-select" type="datetime-local" id="meeting" name="meeting"
-                                                min="2024-09-21T10:00" max="2024-12-31T18:00" step="600" required>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" class="mx-auto text-center border-dark fw-bold"> <!-- Botón de enviar -->
-                                            <button type="submit" class="btn btn-primary">Agregar</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
-                </div>
-            {% endfor %}
         </div>
     </div>
+</div>
+
+<div class="container-xxl bg-secondary rounded-start rounded-end d-md-block mt-5 ">
+    <h2 class="fw-bold fs-1 text-center fst-italic pt-5" style="color: #000;">Agendar Partidos por grupos</h2>
+    <div class="row">
+        <div class="col-sm-4 col-md-8 col-lg-8 col-lx-8 pt-5">
+            <form id="form-partidos" action="{{ url_for('partidosBlueprint.partidos') }}" class="text-center ps-5"
+                method="post">
+                <div class="mb-3">
+                    <label for="grupo" class="form-label">Selecciona el Grupo</label>
+                    <select id="grupo" name="grupo" class="form-select" required>
+                        <option value="">Selecciona un grupo</option>
+                        {% for grupo_id, grupo in grupos.items() %}
+                        <option value="{{ grupo_id }}">{{ grupo.nombre_grupo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="equipo1" class="form-label">Equipo 1</label>
+                    <select id="equipo1" name="equipo1" class="form-select" required>
+                        <option value="">Selecciona un equipo</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="equipo2" class="form-label">Equipo 2</label>
+                    <select id="equipo2" name="equipo2" class="form-select" required>
+                        <option value="">Selecciona un equipo</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="fecha_hora" class="form-label">Fecha y Hora</label>
+                    <input type="datetime-local" id="fecha_hora" name="fecha_hora" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    // Evento para cambiar las opciones según el grupo seleccionado
+    document.getElementById("grupo").addEventListener("change", function () {
+        const grupoId = this.value;
+        const equipo1 = document.getElementById("equipo1");
+        const equipo2 = document.getElementById("equipo2");
+
+        if (grupoId) {
+            fetch(`/equipos/${grupoId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Limpiar opciones actuales
+                    equipo1.innerHTML = '<option value="">Selecciona un equipo</option>';
+                    equipo2.innerHTML = '<option value="">Selecciona un equipo</option>';
+
+                    // Agregar opciones nuevas
+                    data.forEach(equipo => {
+                        const option = `<option value="${equipo.id}">${equipo.nombre}</option>`;
+                        equipo1.innerHTML += option;
+                        equipo2.innerHTML += option;
+                    });
+
+                    // Configurar eventos de exclusión
+                    actualizarExclusion(equipo1, equipo2);
+                    actualizarExclusion(equipo2, equipo1);
+                })
+                .catch(error => console.error("Error al cargar los equipos:", error));
+        } else {
+            equipo1.innerHTML = '<option value="">Selecciona un equipo</option>';
+            equipo2.innerHTML = '<option value="">Selecciona un equipo</option>';
+        }
+    });
+
+    // Función para excluir opciones seleccionadas en otro select
+    function actualizarExclusion(selectPrincipal, selectSecundario) {
+        selectPrincipal.addEventListener("change", function () {
+            const seleccionado = this.value;
+            const opcionesSecundario = selectSecundario.querySelectorAll("option");
+
+            opcionesSecundario.forEach(option => {
+                if (option.value === seleccionado) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+
+            // Mantener la selección actual en el select secundario
+            const valorActualSecundario = selectSecundario.value;
+            if (valorActualSecundario === seleccionado) {
+                selectSecundario.value = "";
+            }
+        });
+    }
+
+    // Inicializar eventos para exclusión al cargar la página
+    const equipo1 = document.getElementById("equipo1");
+    const equipo2 = document.getElementById("equipo2");
+    actualizarExclusion(equipo1, equipo2);
+    actualizarExclusion(equipo2, equipo1);
+</script>
+
+
 {% endblock %}
